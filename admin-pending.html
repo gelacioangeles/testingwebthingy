@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Pending Recipes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-pending-page">
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="admin-page-header">
+    <a class="btn-back" href="admin-panel.html">← Back to Dashboard</a>
+    <h1 class="admin-page-title">Pending Recipes</h1>
+    <div style="width:160px;"></div>
+  </div>
+
+  <div class="pending-search-wrap">
+    <div class="pending-search">
+      <span style="color:#888;font-size:0.9rem;">🔍</span>
+      <input type="text" id="pendingSearch" placeholder="Search pending recipes..." oninput="filterPending()">
+    </div>
+  </div>
+
+  <div class="pending-table-wrap">
+    <table class="pending-table">
+      <thead>
+        <tr>
+          <th>Recipe</th><th>Author</th><th>Category</th><th>Submitted</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="pendingTbody"></tbody>
+    </table>
+    <p id="noPending" style="display:none;text-align:center;padding:20px;color:var(--muted);">No pending recipes match your search.</p>
+  </div>
+
+  <div class="load-more-wrap">
+    <button class="btn-load-more" id="loadMoreBtn" onclick="loadMore()">Load More</button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const ALL_PENDING = [
+      { name:'Cajun Shrimp Pasta',     prep:15, cook:20, author:'sarah_j',      cat:'Dinner',    time:'2 hours ago' },
+      { name:'Tomato Basil Soup',       prep:10, cook:25, author:'mike_chef',    cat:'Lunch',     time:'5 hours ago' },
+      { name:'Chocolate Lava Cake',     prep:20, cook:12, author:'emma_bakes',   cat:'Dessert',   time:'1 day ago' },
+      { name:'Classic Pancakes',        prep:5,  cook:15, author:'breakfast_bob',cat:'Breakfast', time:'2 days ago' },
+      { name:'Beef Tacos',              prep:15, cook:20, author:'taco_tom',     cat:'Dinner',    time:'3 days ago' },
+      { name:'Greek Salad',             prep:10, cook:0,  author:'salad_sue',    cat:'Lunch',     time:'3 days ago' },
+      { name:'Blueberry Muffins',       prep:15, cook:25, author:'baker_ben',    cat:'Breakfast', time:'4 days ago' },
+      { name:'Vegetable Stir Fry',      prep:10, cook:15, author:'veggielover',  cat:'Dinner',    time:'5 days ago' },
+      { name:'Banana Foster',           prep:5,  cook:10, author:'dessert_dan',  cat:'Dessert',   time:'6 days ago' },
+      { name:'Chicken Caesar Wrap',     prep:10, cook:5,  author:'wrap_rachel',  cat:'Lunch',     time:'1 week ago' },
+      { name:'Shakshuka',               prep:10, cook:20, author:'brunch_brad',  cat:'Breakfast', time:'1 week ago' },
+      { name:'Tiramisu',                prep:30, cook:0,  author:'dolce_diana',  cat:'Dessert',   time:'1 week ago' },
+    ];
+
+    const PAGE_SIZE = 4;
+    let showing = PAGE_SIZE;
+    let filtered = [...ALL_PENDING];
+
+    function rowHtml(r) {
+      return `<tr>
+        <td><div class="pending-recipe-name">${r.name}</div><div class="pending-recipe-meta">Prep: ${r.prep} min • Cook: ${r.cook} min</div></td>
+        <td><div class="author-cell"><div class="author-avatar-sm">👤</div>${r.author}</div></td>
+        <td>${r.cat}</td>
+        <td>${r.time}</td>
+        <td><span class="badge-pending-sm">PENDING</span></td>
+        <td><a class="btn-review" href="admin-review.html">Review</a></td>
+      </tr>`;
+    }
+
+    function renderTable() {
+      const shown = filtered.slice(0, showing);
+      document.getElementById('pendingTbody').innerHTML = shown.map(rowHtml).join('');
+      document.getElementById('noPending').style.display = filtered.length ? 'none' : 'block';
+      document.getElementById('loadMoreBtn').style.display = showing >= filtered.length ? 'none' : 'block';
+    }
+
+    function filterPending() {
+      const q = document.getElementById('pendingSearch').value.toLowerCase();
+      filtered = ALL_PENDING.filter(r =>
+        r.name.toLowerCase().includes(q) ||
+        r.author.toLowerCase().includes(q) ||
+        r.cat.toLowerCase().includes(q)
+      );
+      showing = PAGE_SIZE;
+      renderTable();
+    }
+
+    function loadMore() {
+      showing = Math.min(showing + PAGE_SIZE, filtered.length);
+      renderTable();
+    }
+
+    renderTable();
+  </script>
+</body>
+</html>

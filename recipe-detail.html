@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Chicken Alfredo Pasta</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="recipe-detail-page">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="recipe-detail-wrap">
+
+    <!-- HEADER ROW -->
+    <div class="recipe-detail-header">
+      <div class="avatar-sm">👤</div>
+      <div>
+        <h1>Chicken Alfredo Pasta</h1>
+        <div class="by-line">By Username • <a href="user-profile.html">Favorites</a></div>
+      </div>
+      <button class="recipe-detail-fav" id="favBtn" onclick="toggleFav()">♡</button>
+    </div>
+
+    <!-- MAIN BODY: image + ingredients side by side -->
+    <div class="recipe-detail-body">
+      <div>
+        <img class="recipe-main-img"
+          src="https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=900&q=80"
+          alt="Chicken Alfredo Pasta">
+        <div class="recipe-action-row">
+          <button class="btn-jump" onclick="document.getElementById('instructions').scrollIntoView({behavior:'smooth'})">↓ JUMP TO RECIPE</button>
+          <button class="btn-save-recipe" id="saveBtn" onclick="toggleSave()">♡ SAVE</button>
+        </div>
+      </div>
+
+      <div class="ingredients-card">
+        <h3>Main Ingredients</h3>
+        <ul>
+          <li>Fettuccine pasta</li>
+          <li>Chicken breasts</li>
+          <li>Heavy cream</li>
+          <li>Unsalted butter</li>
+          <li>Garlic (minced)</li>
+          <li>Parmesan cheese</li>
+          <li>Salt &amp; pepper</li>
+          <li>Italian seasoning</li>
+          <li>Red pepper flakes</li>
+          <li>Fresh parsley</li>
+          <li>Spinach or broccoli</li>
+          <li>Mushrooms</li>
+          <li>Mozzarella cheese</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TWO-COL: instructions + comments -->
+    <div class="recipe-detail-cols">
+      <div>
+        <h2 style="font-size:1.2rem; font-weight:900; margin-bottom:8px;">Chicken Alfredo Casserole</h2>
+        <div class="recipe-meta-row">
+          <span class="stars-lg">★★★★★</span>
+          <span class="meta-item">5 | 6 REVIEWS</span>
+          <span class="meta-item">PREP: 10 MIN.</span>
+          <span class="meta-item">COOK: 35 MIN.</span>
+          <span class="meta-item">4 SERVINGS</span>
+        </div>
+
+        <div class="recipe-instructions" id="instructions">
+          <h2>Instructions</h2>
+          <ol>
+            <li>Cook pasta according to package directions. Drain and set aside.</li>
+            <li>Season and cook chicken until fully cooked. Remove and slice.</li>
+            <li>Make the sauce: melt butter, sauté garlic, add cream and simmer.</li>
+            <li>Add Parmesan cheese and stir until smooth. Season with salt and pepper.</li>
+            <li>Combine pasta and chicken with sauce. Toss until coated.</li>
+            <li>Serve hot, garnish with parsley if desired.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- COMMENTS SIDEBAR -->
+      <div class="comments-section">
+        <h3>Comments (12)</h3>
+
+        <div class="comment-item">
+          <div class="comment-avatar">👤</div>
+          <div class="comment-body">
+            <div class="comment-name">Sarah Johnson</div>
+            <div class="comment-time">2 hours ago</div>
+            <p>This recipe is amazing! Made it for my family last night and everyone loved it. The sauce was so creamy and delicious.</p>
+          </div>
+          <button class="btn-edit-comment">Edit</button>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-avatar">👤</div>
+          <div class="comment-body">
+            <div class="comment-name">Mike Davis</div>
+            <div class="comment-time">1 day ago</div>
+            <p>Perfect for a quick weeknight dinner. I added some broccoli for extra veggies.</p>
+          </div>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-avatar">👤</div>
+          <div class="comment-body">
+            <div class="comment-name">Emma Wilson</div>
+            <div class="comment-time">3 days ago</div>
+            <p>Can I substitute heavy cream with half-and-half?</p>
+          </div>
+        </div>
+
+        <div class="add-comment-section">
+          <h4>Add Your Comment</h4>
+          <textarea placeholder="Share your thoughts about this recipe..."></textarea>
+          <button class="btn-post-comment" onclick="postComment()">Post Comment</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    function toggleFav() {
+      const btn = document.getElementById('favBtn');
+      btn.classList.toggle('liked');
+      btn.textContent = btn.classList.contains('liked') ? '♥' : '♡';
+    }
+
+    function toggleSave() {
+      const btn = document.getElementById('saveBtn');
+      const saved = btn.textContent.includes('SAVED');
+      btn.textContent = saved ? '♡ SAVE' : '♥ SAVED';
+    }
+
+    function postComment() {
+      const ta = document.querySelector('.add-comment-section textarea');
+      const text = ta.value.trim();
+      if (!text) return;
+
+      const newComment = document.createElement('div');
+      newComment.className = 'comment-item';
+      newComment.innerHTML = `
+        <div class="comment-avatar">👤</div>
+        <div class="comment-body">
+          <div class="comment-name">You</div>
+          <div class="comment-time">Just now</div>
+          <p>${text}</p>
+        </div>
+      `;
+      document.querySelector('.add-comment-section').insertAdjacentElement('beforebegin', newComment);
+      ta.value = '';
+
+      // Update comment count
+      const h3 = document.querySelector('.comments-section h3');
+      const count = document.querySelectorAll('.comment-item').length;
+      h3.textContent = `Comments (${count})`;
+    }
+  </script>
+</body>
+</html>

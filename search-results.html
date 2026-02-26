@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Search Results</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .filter-value { font-size:0.75rem; color:var(--green); font-weight:700; margin-left:auto; }
+    .filter-slider-label { display:flex; align-items:center; font-size:0.85rem; font-weight:700; margin:12px 0 4px; }
+  </style>
+</head>
+<body class="search-page">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <h1 class="search-results-title">Search results for: <span id="query-label">Pasta</span></h1>
+
+  <div class="search-layout">
+    <aside class="filter-sidebar">
+      <h3>Advanced Filters</h3>
+
+      <div class="filter-search">
+        <span style="color:#888;font-size:0.85rem;">🔍</span>
+        <input type="text" id="filterSearch" placeholder="Search recipes..." oninput="applyFilters()">
+        <button class="clear-btn" onclick="document.getElementById('filterSearch').value='';applyFilters()">✕</button>
+      </div>
+
+      <div class="filter-section-title">Difficulty</div>
+      <label class="filter-check"><input type="checkbox" value="Easy" checked onchange="applyFilters()"> Easy</label>
+      <label class="filter-check"><input type="checkbox" value="Medium" checked onchange="applyFilters()"> Medium</label>
+      <label class="filter-check"><input type="checkbox" value="Hard" checked onchange="applyFilters()"> Hard</label>
+
+      <hr class="filter-divider">
+
+      <div class="filter-slider-label">Max prep time <span class="filter-value" id="prepVal">60 min</span></div>
+      <input type="range" id="prepSlider" min="5" max="120" value="60" oninput="updateSlider(this,'prepVal','min');applyFilters()">
+
+      <div class="filter-slider-label">Max cook time <span class="filter-value" id="cookVal">90 min</span></div>
+      <input type="range" id="cookSlider" min="5" max="180" value="90" oninput="updateSlider(this,'cookVal','min');applyFilters()">
+
+      <div class="filter-slider-label">Min servings <span class="filter-value" id="servVal">1</span></div>
+      <input type="range" id="servSlider" min="1" max="12" value="1" oninput="updateSlider(this,'servVal','');applyFilters()">
+    </aside>
+
+    <main class="search-main">
+      <div class="recipe-grid-4" id="searchGrid"></div>
+      <p id="noResults" style="display:none;text-align:center;color:var(--muted);padding:40px 0;font-size:1rem;">No recipes match your filters.</p>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const ALL = [
+      { title:'Pasta Salad',              diff:'Easy',   prep:10, cook:15, serv:6, stars:4, ratings:321,  img:'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&q=80',  cat:'Salad' },
+      { title:'Italian Pasta Salad',      diff:'Easy',   prep:15, cook:10, serv:8, stars:5, ratings:174,  img:'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80',  cat:'Salad' },
+      { title:'Shrimp Scampi with Pasta', diff:'Medium', prep:10, cook:20, serv:4, stars:4, ratings:1591, img:'https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400&q=80',  cat:'Dinner' },
+      { title:'Pesto Pasta',              diff:'Easy',   prep:10, cook:15, serv:4, stars:4, ratings:220,  img:'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&q=80',  cat:'Dinner' },
+      { title:'Pizza Pasta Bake',         diff:'Medium', prep:20, cook:40, serv:6, stars:4, ratings:106,  img:'https://images.unsplash.com/photo-1619895092538-128341789043?w=400&q=80',  cat:'Dinner' },
+      { title:'Savory Angel Hair Pasta',  diff:'Medium', prep:10, cook:25, serv:4, stars:4, ratings:88,   img:'https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=400&q=80',  cat:'Dinner' },
+      { title:'Classic Pasta Salad',      diff:'Easy',   prep:15, cook:15, serv:10,stars:5, ratings:203,  img:'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&q=80',  cat:'Salad' },
+      { title:"MeMe's Pasta Fagioli",     diff:'Hard',   prep:20, cook:90, serv:8, stars:5, ratings:171,  img:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',  cat:'Soup' },
+      { title:'Chicken Alfredo',          diff:'Medium', prep:10, cook:35, serv:4, stars:5, ratings:328,  img:'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=400&q=80', cat:'Dinner' },
+      { title:'Creamy Tomato Pasta',      diff:'Easy',   prep:5,  cook:20, serv:4, stars:4, ratings:415,  img:'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80',  cat:'Dinner' },
+    ];
+
+    function starsHtml(n) { return '★'.repeat(n)+'☆'.repeat(5-n); }
+
+    function updateSlider(el, valId, suffix) {
+      const pct = (el.value-el.min)/(el.max-el.min)*100;
+      el.style.background = `linear-gradient(to right,var(--green) ${pct}%,#c8c0b0 ${pct}%)`;
+      document.getElementById(valId).textContent = el.value + suffix;
+    }
+
+    function applyFilters() {
+      const search = document.getElementById('filterSearch').value.toLowerCase();
+      const diffs = [...document.querySelectorAll('.filter-check input:checked')].map(c=>c.value);
+      const maxPrep = +document.getElementById('prepSlider').value;
+      const maxCook = +document.getElementById('cookSlider').value;
+      const minServ = +document.getElementById('servSlider').value;
+
+      let list = ALL.filter(r =>
+        (!search || r.title.toLowerCase().includes(search)) &&
+        diffs.includes(r.diff) &&
+        r.prep <= maxPrep &&
+        r.cook <= maxCook &&
+        r.serv >= minServ
+      );
+
+      // Update query label from URL or search box
+      const q = search || new URLSearchParams(window.location.search).get('q') || 'Pasta';
+      document.getElementById('query-label').textContent = q;
+
+      const grid = document.getElementById('searchGrid');
+      const noR = document.getElementById('noResults');
+      if (!list.length) { grid.innerHTML=''; noR.style.display='block'; return; }
+      noR.style.display = 'none';
+
+      grid.innerHTML = list.map(r => `
+        <div class="recipe-card" onclick="window.location.href='recipe-detail.html?recipe='+encodeURIComponent('${r.title.replace(/'/g,"\\'")}');" style="cursor:pointer;">
+          <div class="recipe-card-img">
+            <img src="${r.img}" alt="${r.title}">
+            <button class="heart-btn" onclick="event.stopPropagation();this.classList.toggle('liked');this.textContent=this.classList.contains('liked')?'♥':'♡';">♡</button>
+          </div>
+          <div class="recipe-card-body">
+            <div class="recipe-category">${r.cat} · ${r.diff}</div>
+            <div class="recipe-title">${r.title}</div>
+            <div class="stars">${starsHtml(r.stars)} <span>${r.ratings.toLocaleString()} Ratings</span></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Init sliders visually
+    ['prepSlider','cookSlider','servSlider'].forEach(id => {
+      const el = document.getElementById(id);
+      const pct = (el.value-el.min)/(el.max-el.min)*100;
+      el.style.background=`linear-gradient(to right,var(--green) ${pct}%,#c8c0b0 ${pct}%)`;
+    });
+
+    // Pre-fill search from URL
+    const urlQ = new URLSearchParams(window.location.search).get('q');
+    if (urlQ) document.getElementById('filterSearch').value = urlQ;
+
+    applyFilters();
+  </script>
+</body>
+</html>

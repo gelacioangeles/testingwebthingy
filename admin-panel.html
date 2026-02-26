@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <h1 class="admin-title">Admin Panel</h1>
+
+  <div class="admin-wrap">
+
+    <!-- STATS -->
+    <div class="admin-stat-card">
+      <div class="admin-stat-num">247</div>
+      <div class="admin-stat-label">Total Users</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-num">1,824</div>
+      <div class="admin-stat-label">Total Recipes</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-num orange">23</div>
+      <div class="admin-stat-label">Pending Review</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-num">12</div>
+      <div class="admin-stat-label">Categories</div>
+    </div>
+
+    <!-- ACTION CARDS -->
+    <a class="admin-action-card" href="admin-pending.html">
+      <span class="admin-action-icon">📋</span>
+      <div class="admin-action-label">Pending Recipes</div>
+      <div class="admin-action-sub">Review pending recipes</div>
+      <span class="admin-badge orange">23 Pending</span>
+    </a>
+
+    <a class="admin-action-card" href="admin-users.html">
+      <span class="admin-action-icon">👤</span>
+      <div class="admin-action-label">All users</div>
+      <div class="admin-action-sub">Manage users and their roles</div>
+      <span class="admin-badge blue">247 Users</span>
+    </a>
+
+    <a class="admin-action-card" href="admin-categories.html">
+      <span class="admin-action-icon">⚙️</span>
+      <div class="admin-action-label">Manage Categories</div>
+      <div class="admin-action-sub">Add, edit, or remove categories</div>
+      <span class="admin-badge teal">12 Categories</span>
+    </a>
+
+    <!-- RECENT ACTIVITY -->
+    <div class="admin-recent">
+      <h3>Recent Activity</h3>
+      <div class="admin-activity-row">
+        <span>sarah_j submitted a new recipe: "Cajun Shrimp"</span>
+        <span class="admin-activity-time">2 hours ago</span>
+      </div>
+      <div class="admin-activity-row">
+        <span>New user registered: Dante_Sparda</span>
+        <span class="admin-activity-time">5 hours ago</span>
+      </div>
+      <div class="admin-activity-row">
+        <span>Recipe "Chocolate cake" was approved</span>
+        <span class="admin-activity-time">1 day ago</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Manage Categories</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-categories-page">
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="admin-page-header">
+    <a class="btn-back" id="backBtn" href="admin-panel.html">← Back to Dashboard</a>
+    <h1 class="admin-page-title">Manage Categories</h1>
+    <div style="width:160px;"></div>
+  </div>
+
+  <!-- LIST VIEW -->
+  <div id="listView" style="max-width:760px;margin:20px auto 0;padding:0 20px 48px;">
+    <div class="cat-list-wrap" id="catList">
+      <div class="cat-list-item" id="cat-1">
+        <div class="cat-list-info"><strong>Breakfast</strong><span>156 recipes</span></div>
+        <button class="btn-cat-edit" onclick="showEditView('cat-1','Breakfast')">Edit</button>
+        <button class="btn-cat-delete" onclick="openDeleteModal('cat-1','Breakfast')">Delete</button>
+      </div>
+      <div class="cat-list-item" id="cat-2">
+        <div class="cat-list-info"><strong>Lunch</strong><span>200 recipes</span></div>
+        <button class="btn-cat-edit" onclick="showEditView('cat-2','Lunch')">Edit</button>
+        <button class="btn-cat-delete" onclick="openDeleteModal('cat-2','Lunch')">Delete</button>
+      </div>
+      <div class="cat-list-item" id="cat-3">
+        <div class="cat-list-info"><strong>Dinner</strong><span>200 recipes</span></div>
+        <button class="btn-cat-edit" onclick="showEditView('cat-3','Dinner')">Edit</button>
+        <button class="btn-cat-delete" onclick="openDeleteModal('cat-3','Dinner')">Delete</button>
+      </div>
+      <div class="cat-list-item" id="cat-4">
+        <div class="cat-list-info"><strong>Dessert</strong><span>200 recipes</span></div>
+        <button class="btn-cat-edit" onclick="showEditView('cat-4','Dessert')">Edit</button>
+        <button class="btn-cat-delete" onclick="openDeleteModal('cat-4','Dessert')">Delete</button>
+      </div>
+    </div>
+
+    <div class="add-cat-card">
+      <h3>Add New Category</h3>
+      <div class="field">
+        <label>Category Name *</label>
+        <input type="text" id="newCatName" placeholder="e.g., Salads, Beverages, Snacks...">
+      </div>
+      <div class="field">
+        <label>Description (Optional)</label>
+        <textarea id="newCatDesc" placeholder="Brief description of this category..."></textarea>
+      </div>
+      <div class="field">
+        <label>Icon/Emoji (Optional)</label>
+        <input type="text" id="newCatIcon" placeholder="🥗">
+      </div>
+      <button class="btn-create-cat" onclick="createCategory()">Create Category</button>
+    </div>
+
+    <div class="cat-guidelines">
+      <h4>Category Guidelines</h4>
+      <ul>
+        <li>Keep category names short and clear</li>
+        <li>Avoid overlapping categories</li>
+        <li>Categories should be broad enough to include multiple recipes</li>
+        <li>Delete categories with caution - recipes will need reassignment</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- EDIT VIEW -->
+  <div id="editView" style="display:none;">
+    <div style="max-width:1100px;margin:20px auto 0;padding:0 20px 48px;">
+      <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:28px 36px;">
+        <h2 id="editViewTitle" style="font-size:1.3rem;font-weight:900;margin-bottom:20px;">Edit Category</h2>
+        <div class="field" style="margin-bottom:16px;">
+          <label style="font-size:0.88rem;font-weight:700;display:block;margin-bottom:5px;">Category Name *</label>
+          <input type="text" id="editCatName" placeholder="e.g., Salads, Beverages, Snacks..."
+            style="width:100%;border:1.5px solid #b0a898;border-radius:8px;padding:10px 14px;font-size:0.93rem;font-family:'Lato',sans-serif;background:#fff;outline:none;">
+        </div>
+        <div class="field" style="margin-bottom:16px;">
+          <label style="font-size:0.88rem;font-weight:700;display:block;margin-bottom:5px;">Description (Optional)</label>
+          <textarea id="editCatDesc" placeholder="Brief description of this category..."
+            style="width:100%;border:1.5px solid #b0a898;border-radius:8px;padding:10px 14px;font-size:0.93rem;font-family:'Lato',sans-serif;min-height:100px;resize:vertical;background:#fff;outline:none;"></textarea>
+        </div>
+        <div class="field" style="margin-bottom:20px;">
+          <label style="font-size:0.88rem;font-weight:700;display:block;margin-bottom:5px;">Icon/Emoji (Optional)</label>
+          <input type="text" id="editCatIcon" placeholder="🥗"
+            style="width:100%;border:1.5px solid #b0a898;border-radius:8px;padding:10px 14px;font-size:0.93rem;font-family:'Lato',sans-serif;background:#fff;outline:none;">
+        </div>
+        <button class="btn-create-cat" onclick="saveEditCategory()">Edit Category</button>
+
+        <hr style="border:none;border-top:1.5px solid #d8d0c4;margin:24px 0;">
+
+        <div>
+          <h4 style="font-size:0.92rem;font-weight:900;margin-bottom:10px;">Category Guidelines</h4>
+          <ul style="padding-left:18px;">
+            <li style="font-size:0.84rem;color:var(--muted);margin-bottom:5px;line-height:1.5;">Keep category names short and clear</li>
+            <li style="font-size:0.84rem;color:var(--muted);margin-bottom:5px;line-height:1.5;">Avoid overlapping categories</li>
+            <li style="font-size:0.84rem;color:var(--muted);margin-bottom:5px;line-height:1.5;">Categories should be broad enough to include multiple recipes</li>
+            <li style="font-size:0.84rem;color:var(--muted);margin-bottom:5px;line-height:1.5;">Delete categories with caution - recipes will need reassignment</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div class="modal-overlay" id="deleteCatModal">
+    <div class="modal-box">
+      <span class="modal-icon">⚠️</span>
+      <div class="modal-title" id="deleteCatTitle">Delete Category?</div>
+      <p class="modal-body" id="deleteCatMsg"></p>
+      <div class="modal-btns">
+        <button class="btn-modal-danger" onclick="confirmDeleteCat()">Delete</button>
+        <button class="btn-modal-cancel" onclick="document.getElementById('deleteCatModal').classList.remove('open')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELETE SUCCESS MODAL -->
+  <div class="modal-overlay" id="deleteCatSuccessModal">
+    <div class="modal-box">
+      <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
+      <div class="modal-title">Category Deleted!</div>
+      <p class="modal-body" id="deleteCatSuccessMsg"></p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="closeDeleteCatSuccess()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY UPDATED MODAL -->
+  <div class="modal-overlay" id="catUpdatedModal">
+    <div class="modal-box">
+      <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
+      <div class="modal-title">Category Updated!</div>
+      <p class="modal-body">The category has been updated successfully.<br>Changes have been applied to all recipes in this category.</p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="closeCatUpdated()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    let pendingDeleteCatId = null, pendingDeleteCatName = null;
+    let editingCatId = null, editingCatOrigName = null;
+    let catCount = 4;
+
+    function showEditView(id, name) {
+      editingCatId = id; editingCatOrigName = name;
+      document.getElementById('editViewTitle').textContent = 'Edit ' + name + ' Categories';
+      document.getElementById('editCatName').value = name;
+      document.getElementById('editCatDesc').value = '';
+      document.getElementById('editCatIcon').value = '';
+      document.getElementById('listView').style.display = 'none';
+      document.getElementById('editView').style.display = 'block';
+      document.getElementById('backBtn').href = '#';
+      document.getElementById('backBtn').onclick = function(e) { e.preventDefault(); backToList(); };
+    }
+
+    function backToList() {
+      document.getElementById('listView').style.display = 'block';
+      document.getElementById('editView').style.display = 'none';
+      document.getElementById('backBtn').href = 'admin-panel.html';
+      document.getElementById('backBtn').onclick = null;
+    }
+
+    function saveEditCategory() {
+      const newName = document.getElementById('editCatName').value.trim();
+      if (!newName) { alert('Please enter a category name.'); return; }
+      const el = document.getElementById(editingCatId);
+      if (el) {
+        el.querySelector('strong').textContent = newName;
+        el.querySelector('.btn-cat-edit').setAttribute('onclick', `showEditView('${editingCatId}','${newName}')`);
+        el.querySelector('.btn-cat-delete').setAttribute('onclick', `openDeleteModal('${editingCatId}','${newName}')`);
+      }
+      document.getElementById('catUpdatedModal').classList.add('open');
+    }
+
+    function closeCatUpdated() {
+      document.getElementById('catUpdatedModal').classList.remove('open');
+      backToList();
+    }
+
+    function openDeleteModal(id, name) {
+      pendingDeleteCatId = id; pendingDeleteCatName = name;
+      document.getElementById('deleteCatTitle').textContent = 'Delete ' + name + '?';
+      document.getElementById('deleteCatMsg').textContent = `Are you sure you want to delete "${name}" category? This action cannot be undone.`;
+      document.getElementById('deleteCatModal').classList.add('open');
+    }
+
+    function confirmDeleteCat() {
+      document.getElementById('deleteCatModal').classList.remove('open');
+      document.getElementById('deleteCatSuccessMsg').textContent = `"${pendingDeleteCatName}" has been successfully been deleted.`;
+      document.getElementById('deleteCatSuccessModal').classList.add('open');
+    }
+
+    function closeDeleteCatSuccess() {
+      document.getElementById('deleteCatSuccessModal').classList.remove('open');
+      document.getElementById(pendingDeleteCatId)?.remove();
+      pendingDeleteCatId = null; pendingDeleteCatName = null;
+    }
+
+    function createCategory() {
+      const name = document.getElementById('newCatName').value.trim();
+      if (!name) { alert('Please enter a category name.'); return; }
+      catCount++;
+      const id = 'cat-' + catCount;
+      const item = document.createElement('div');
+      item.className = 'cat-list-item'; item.id = id;
+      item.innerHTML = `<div class="cat-list-info"><strong>${name}</strong><span>0 recipes</span></div>
+        <button class="btn-cat-edit" onclick="showEditView('${id}','${name}')">Edit</button>
+        <button class="btn-cat-delete" onclick="openDeleteModal('${id}','${name}')">Delete</button>`;
+      document.getElementById('catList').appendChild(item);
+      document.getElementById('newCatName').value = '';
+      document.getElementById('newCatDesc').value = '';
+      document.getElementById('newCatIcon').value = '';
+    }
+  </script>
+</body>
+</html>

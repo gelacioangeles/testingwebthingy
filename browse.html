@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Browse</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="browse-page">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html" class="active">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="browse-layout">
+    <aside class="browse-sidebar">
+      <h2>Browse By Category</h2>
+      <h3>Categories</h3>
+      <button class="sidebar-cat-btn active" data-cat="All" onclick="setCategory(this)">All</button>
+      <button class="sidebar-cat-btn" data-cat="Breakfast" onclick="setCategory(this)">Breakfast</button>
+      <button class="sidebar-cat-btn" data-cat="Lunch" onclick="setCategory(this)">Lunch</button>
+      <button class="sidebar-cat-btn" data-cat="Dinner" onclick="setCategory(this)">Dinner</button>
+      <button class="sidebar-cat-btn" data-cat="Dessert" onclick="setCategory(this)">Dessert</button>
+
+      <h3>Sort by</h3>
+      <label class="sort-row"><input type="radio" name="sort" value="new" checked onchange="applyFilters()"> New</label>
+      <label class="sort-row"><input type="radio" name="sort" value="toprated" onchange="applyFilters()"> Top Rated</label>
+    </aside>
+
+    <main class="browse-main">
+      <div class="browse-search-row">
+        <div class="browse-search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Search recipes..." id="browseSearch" oninput="applyFilters()" onkeydown="if(event.key==='Enter')goSearch()">
+          <button class="clear-btn" onclick="document.getElementById('browseSearch').value='';applyFilters()">✕</button>
+        </div>
+        <button class="browse-btn" onclick="goSearch()">Browse</button>
+      </div>
+
+      <div class="recipe-grid" id="browseGrid"></div>
+      <p id="noResults" style="display:none;text-align:center;color:var(--muted);padding:40px 0;font-size:1rem;">No recipes found.</p>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const RECIPES = [
+      { title:'Good New Orleans Creole Gumbo', cat:'Dinner',    ratings:1386, stars:5, added:1, img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500&q=80' },
+      { title:'Shrimp Étouffée',              cat:'Dinner',    ratings:659,  stars:5, added:5, img:'https://images.unsplash.com/photo-1604908177453-7462950a6a3b?w=500&q=80' },
+      { title:'Best Jambalaya',               cat:'Dinner',    ratings:1241, stars:4, added:3, img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=500&q=80' },
+      { title:'Easy Red Beans and Rice',      cat:'Lunch',     ratings:589,  stars:4, added:8, img:'https://images.unsplash.com/photo-1512058454905-6b841e7ad132?w=500&q=80' },
+      { title:'Louisiana Shrimp Creole',      cat:'Dinner',    ratings:410,  stars:4, added:10,img:'https://images.unsplash.com/photo-1625943553852-781c0c6d34b4?w=500&q=80' },
+      { title:'Mardi Gras King Cake',         cat:'Dessert',   ratings:391,  stars:4, added:2, img:'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500&q=80' },
+      { title:'Classic Pancakes',             cat:'Breakfast', ratings:820,  stars:5, added:12,img:'https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=500&q=80' },
+      { title:'French Toast',                 cat:'Breakfast', ratings:512,  stars:4, added:11,img:'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&q=80' },
+      { title:'Caesar Salad',                 cat:'Lunch',     ratings:340,  stars:4, added:9, img:'https://images.unsplash.com/photo-1551248429-40975aa4de74?w=500&q=80' },
+      { title:'Chocolate Lava Cake',          cat:'Dessert',   ratings:780,  stars:5, added:7, img:'https://images.unsplash.com/photo-1564355808539-22fda35bed7e?w=500&q=80' },
+      { title:'Grilled Salmon',               cat:'Dinner',    ratings:620,  stars:4, added:4, img:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&q=80' },
+      { title:'Chicken Alfredo',              cat:'Dinner',    ratings:328,  stars:5, added:6, img:'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=500&q=80' },
+    ];
+
+    let activeCat = 'All';
+    let likedSet = new Set();
+
+    function starsHtml(n) {
+      return '★'.repeat(n) + '☆'.repeat(5-n);
+    }
+
+    function renderGrid(list) {
+      const grid = document.getElementById('browseGrid');
+      const noR = document.getElementById('noResults');
+      if (!list.length) { grid.innerHTML=''; noR.style.display='block'; return; }
+      noR.style.display='none';
+      grid.innerHTML = list.map((r,i) => `
+        <div class="recipe-card" onclick="window.location.href='recipe-detail.html?recipe='+encodeURIComponent('${r.title.replace(/'/g,"\\'")}');" style="cursor:pointer;">
+          <div class="recipe-card-img">
+            <img src="${r.img}" alt="${r.title}">
+            <button class="heart-btn ${likedSet.has(r.title)?'liked':''}" data-title="${r.title}" onclick="toggleHeart(event,this,'${r.title.replace(/'/g,"\\'")}')">
+              ${likedSet.has(r.title)?'♥':'♡'}
+            </button>
+          </div>
+          <div class="recipe-card-body">
+            <div class="recipe-category">${r.cat}</div>
+            <div class="recipe-title">${r.title}</div>
+            <div class="stars">${starsHtml(r.stars)} <span>${r.ratings.toLocaleString()} Ratings</span></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function applyFilters() {
+      const search = document.getElementById('browseSearch').value.toLowerCase();
+      const sort = document.querySelector('input[name="sort"]:checked').value;
+      let list = RECIPES.filter(r => {
+        const catMatch = activeCat === 'All' || r.cat === activeCat;
+        const textMatch = !search || r.title.toLowerCase().includes(search);
+        return catMatch && textMatch;
+      });
+      if (sort === 'toprated') list = [...list].sort((a,b) => b.ratings - a.ratings || b.stars - a.stars);
+      else list = [...list].sort((a,b) => b.added - a.added); // "New" = most recently added
+      renderGrid(list);
+    }
+
+    function setCategory(btn) {
+      document.querySelectorAll('.sidebar-cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCat = btn.dataset.cat;
+      applyFilters();
+    }
+
+    function toggleHeart(e, btn, title) {
+      e.stopPropagation();
+      if (likedSet.has(title)) { likedSet.delete(title); btn.classList.remove('liked'); btn.textContent='♡'; }
+      else { likedSet.add(title); btn.classList.add('liked'); btn.textContent='♥'; }
+    }
+
+    function goSearch() {
+      const q = document.getElementById('browseSearch').value.trim();
+      window.location.href = 'search-results.html' + (q ? '?q='+encodeURIComponent(q) : '');
+    }
+
+    applyFilters();
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - My Recipes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="my-recipes-page">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <h1 class="my-recipes-title">My Recipes</h1>
+
+  <div class="my-recipes-list">
+
+    <!-- Card 1: Approved -->
+    <div class="my-recipe-card" id="recipe-1">
+      <img class="my-recipe-img" src="https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=1000&q=80" alt="Chicken Alfredo">
+      <span class="status-badge badge-approved">Approved</span>
+      <div class="my-recipe-footer">
+        <div class="my-recipe-info">
+          <h3>Chicken Alfredo</h3>
+          <div class="stars">★★★★★</div>
+          <div class="rating-count">328 Ratings</div>
+        </div>
+        <div class="my-recipe-btns">
+          <button class="btn-recipe-view" onclick="window.location.href='recipe-detail.html'">View</button>
+          <button class="btn-recipe-edit" onclick="window.location.href='edit-recipe.html'">Edit</button>
+          <button class="btn-recipe-delete" onclick="openDeleteModal('Chicken Alfredo Pasta', 'recipe-1')">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Pending -->
+    <div class="my-recipe-card" id="recipe-2">
+      <img class="my-recipe-img" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=1000&q=80" alt="Tomato Soup">
+      <span class="status-badge badge-pending">Pending</span>
+      <div class="my-recipe-footer">
+        <div class="my-recipe-info">
+          <h3>Tomato Soup</h3>
+          <div class="awaiting">Awaiting Review</div>
+        </div>
+        <div class="my-recipe-btns">
+          <button class="btn-recipe-view" onclick="window.location.href='recipe-detail.html'">View</button>
+          <button class="btn-recipe-edit" onclick="window.location.href='edit-recipe.html'">Edit</button>
+          <button class="btn-recipe-delete" onclick="openDeleteModal('Tomato Soup', 'recipe-2')">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Rejected -->
+    <div class="my-recipe-card" id="recipe-3">
+      <img class="my-recipe-img" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1000&q=80" alt="Chocolate Cake">
+      <span class="status-badge badge-rejected">Rejected</span>
+      <div class="my-recipe-footer">
+        <div class="my-recipe-info">
+          <h3>Chocolate Cake</h3>
+          <div class="admin-fb">See Admin Feedback</div>
+        </div>
+        <div class="my-recipe-btns">
+          <button class="btn-recipe-view" onclick="window.location.href='recipe-detail.html'">View</button>
+          <button class="btn-recipe-edit" onclick="window.location.href='edit-recipe.html'">Edit</button>
+          <button class="btn-recipe-delete" onclick="openDeleteModal('Chocolate Cake', 'recipe-3')">Delete</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal-box">
+      <span class="modal-icon">⚠️</span>
+      <div class="modal-title">Delete Recipe?</div>
+      <p class="modal-body" id="deleteModalMsg">Are you sure you want to delete this recipe? This action cannot be undone.</p>
+      <div class="modal-btns">
+        <button class="btn-modal-danger" onclick="confirmDelete()">Delete Recipe</button>
+        <button class="btn-modal-cancel" onclick="closeDeleteModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELETE SUCCESS MODAL -->
+  <div class="modal-overlay" id="deleteSuccessModal">
+    <div class="modal-box">
+      <span class="modal-icon">✓</span>
+      <div class="modal-title">Recipe Deleted!</div>
+      <p class="modal-body" id="deleteSuccessMsg"></p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="closeDeleteSuccess()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    let pendingDeleteId = null;
+    let pendingDeleteName = null;
+
+    function openDeleteModal(name, id) {
+      pendingDeleteId = id;
+      pendingDeleteName = name;
+      document.getElementById('deleteModalMsg').textContent =
+        `Are you sure you want to delete "${name}"? This action cannot be undone.`;
+      document.getElementById('deleteModal').classList.add('open');
+    }
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('open');
+      pendingDeleteId = null;
+      pendingDeleteName = null;
+    }
+    function confirmDelete() {
+      document.getElementById('deleteModal').classList.remove('open');
+      // Show success modal
+      document.getElementById('deleteSuccessMsg').textContent =
+        `"${pendingDeleteName}" has been deleted.`;
+      document.getElementById('deleteSuccessModal').classList.add('open');
+    }
+    function closeDeleteSuccess() {
+      // Actually remove the card
+      if (pendingDeleteId) {
+        const card = document.getElementById(pendingDeleteId);
+        if (card) card.remove();
+      }
+      document.getElementById('deleteSuccessModal').classList.remove('open');
+      pendingDeleteId = null;
+      pendingDeleteName = null;
+    }
+  </script>
+</body>
+</html>

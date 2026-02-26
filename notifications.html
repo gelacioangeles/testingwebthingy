@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Notifications</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="notifications-page">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <h1 class="notifications-title">Notifications</h1>
+
+  <div class="notifications-list">
+
+    <div class="notif-card" data-unread="true">
+      <div class="notif-icon">✏️</div>
+      <div class="notif-content">
+        <strong>Recipe Approved</strong>
+        <p>Your recipe "Chicken Alfredo Pasta" has been approved and is now live!</p>
+        <span class="notif-time">2 hours ago</span>
+      </div>
+    </div>
+
+    <div class="notif-card" data-unread="true">
+      <div class="notif-icon">💬</div>
+      <div class="notif-content">
+        <strong>Admin Comment</strong>
+        <p>An admin commented on your recipe "Tomato Soup": "Great recipe! Please add prep time."</p>
+        <span class="notif-time">5 hours ago</span>
+      </div>
+    </div>
+
+    <div class="notif-card" data-unread="true">
+      <div class="notif-icon">✕</div>
+      <div class="notif-content">
+        <strong>Recipe Rejected</strong>
+        <p>Your recipe "Chocolate Cake" was rejected. Reason: Missing instructions and ingredients need more detail.</p>
+        <span class="notif-time">1 day ago</span>
+      </div>
+    </div>
+
+    <div class="notif-card read" data-unread="false">
+      <div class="notif-icon">✏️</div>
+      <div class="notif-content">
+        <strong>Recipe Approved</strong>
+        <p>Your recipe "Shrimp Étouffée" has been approved and is now live!</p>
+        <span class="notif-time">3 days ago</span>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="mark-read-btn" onclick="markAllRead()">Mark All as Read</button>
+
+  <script src="script.js"></script>
+  <script>
+    function markAllRead() {
+      document.querySelectorAll('.notif-card[data-unread="true"]').forEach(c => {
+        c.classList.add('read');
+        c.dataset.unread = 'false';
+      });
+      document.getElementById('notifBadge').textContent = '0';
+      document.getElementById('notifBadge').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Discover Delicious Recipes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="landing">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Discover Delicious Recipes</h1>
+    <p>Share your culinary recipes with the world</p>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="heroSearch" placeholder="Search for recipes..." onkeydown="if(event.key==='Enter')doSearch()">
+    </div>
+    <div class="filter-tabs">
+      <button class="tab active" data-cat="Breakfast" onclick="setTab(this)">Breakfast</button>
+      <button class="tab" data-cat="Lunch" onclick="setTab(this)">Lunch</button>
+      <button class="tab" data-cat="Dinner" onclick="setTab(this)">Dinner</button>
+      <button class="tab" data-cat="Dessert" onclick="setTab(this)">Dessert</button>
+    </div>
+  </section>
+
+  <section class="popular">
+    <h2>Popular Dishes</h2>
+    <div class="dish-grid" id="dishGrid">
+      <!-- Cards injected by JS, each with data-cat -->
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+  <script>
+    const ALL_DISHES = [
+      { title:'Fettuccine Alfredo', cat:'Dinner',    img:'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=600&q=80' },
+      { title:'Chicken Piccata',   cat:'Dinner',    img:'https://images.unsplash.com/photo-1604908177453-7462950a6a3b?w=600&q=80' },
+      { title:'Chili',             cat:'Lunch',     img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80' },
+      { title:'Chicken Soup',      cat:'Lunch',     img:'https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=600&q=80' },
+      { title:'Lasagna',           cat:'Dinner',    img:'https://images.unsplash.com/photo-1619895092538-128341789043?w=600&q=80' },
+      { title:'Bagels',            cat:'Breakfast', img:'https://images.unsplash.com/photo-1585325701954-c2d4d2f9264e?w=600&q=80' },
+      { title:'Pancakes',          cat:'Breakfast', img:'https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=600&q=80' },
+      { title:'Banana Bread',      cat:'Dessert',   img:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80' },
+      { title:'French Toast',      cat:'Breakfast', img:'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&q=80' },
+      { title:'Caesar Salad',      cat:'Lunch',     img:'https://images.unsplash.com/photo-1551248429-40975aa4de74?w=600&q=80' },
+      { title:'Chocolate Cake',    cat:'Dessert',   img:'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80' },
+      { title:'Grilled Salmon',    cat:'Dinner',    img:'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=80' },
+    ];
+
+    let activeCat = 'Breakfast';
+
+    function renderDishes(cat) {
+      const grid = document.getElementById('dishGrid');
+      const filtered = cat ? ALL_DISHES.filter(d => d.cat === cat) : ALL_DISHES;
+      grid.innerHTML = filtered.map(d => `
+        <div class="dish-card" onclick="goToRecipe('${d.title}')" style="cursor:pointer;">
+          <img src="${d.img}" alt="${d.title}">
+          <div class="dish-label">${d.title}</div>
+        </div>
+      `).join('');
+    }
+
+    function setTab(el) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      activeCat = el.dataset.cat;
+      renderDishes(activeCat);
+    }
+
+    function doSearch() {
+      const q = document.getElementById('heroSearch').value.trim();
+      if (q) window.location.href = 'search-results.html?q=' + encodeURIComponent(q);
+      else window.location.href = 'search-results.html';
+    }
+
+    function goToRecipe(title) {
+      window.location.href = 'recipe-detail.html?recipe=' + encodeURIComponent(title);
+    }
+
+    // Init
+    renderDishes(activeCat);
+
+    // Allow Enter key on search
+    document.getElementById('heroSearch').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doSearch();
+    });
+  </script>
+</body>
+</html>

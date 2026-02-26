@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - All Users</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-users-page">
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="admin-page-header">
+    <a class="btn-back" href="admin-panel.html">← Back to Dashboard</a>
+    <h1 class="admin-page-title">All Users</h1>
+    <div style="width:160px;"></div>
+  </div>
+
+  <div class="users-controls">
+    <div class="users-search">
+      <span style="color:#888;font-size:0.9rem;">🔍</span>
+      <input type="text" id="userSearch" placeholder="Search users..." oninput="applyUserFilters()">
+    </div>
+    <select class="users-filter-select" id="roleFilter" onchange="applyUserFilters()">
+      <option value="">All Roles</option>
+      <option value="USER">User</option>
+      <option value="ADMIN">Admin</option>
+    </select>
+    <select class="users-filter-select" id="sortFilter" onchange="applyUserFilters()">
+      <option value="newest">Sort by: Newest</option>
+      <option value="oldest">Sort by: Oldest</option>
+      <option value="username">Sort by: Username</option>
+      <option value="recipes">Sort by: Most Recipes</option>
+    </select>
+  </div>
+
+  <div class="users-table-wrap">
+    <table class="users-table">
+      <thead>
+        <tr><th>Profile</th><th>Username</th><th>Email</th><th>Location</th><th>Joined</th><th>Recipes</th><th>Role</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="usersTbody"></tbody>
+    </table>
+    <p id="noUsers" style="display:none;text-align:center;padding:20px;color:var(--muted);">No users match your search.</p>
+  </div>
+
+  <div class="users-footer">
+    <span class="users-count" id="usersCount">Showing 5 of 247 users</span>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <!-- EDIT USER MODAL -->
+  <div class="modal-overlay edit-user-modal" id="editUserModal">
+    <div class="modal-box" style="max-width:480px;text-align:left;">
+      <div class="modal-title" style="text-align:center;">Edit User</div>
+      <div class="edit-user-field">
+        <label>Username</label>
+        <input type="text" id="editUsername" readonly style="background:#f5f2ec;color:#888;">
+      </div>
+      <div class="edit-user-field">
+        <label>Email</label>
+        <input type="email" id="editEmail">
+      </div>
+      <div class="edit-user-field">
+        <label>User Role *</label>
+        <select id="editRole"><option value="USER">User</option><option value="ADMIN">Admin</option></select>
+        <div class="edit-user-role-hint"><strong>User:</strong> Can create recipes, comment, and favorite<br><strong>Admin:</strong> All user permissions + moderation &amp; management</div>
+      </div>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="submitEditUser()">Continue</button>
+        <button class="btn-modal-cancel" onclick="document.getElementById('editUserModal').classList.remove('open')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM ROLE CHANGE MODAL -->
+  <div class="modal-overlay" id="confirmRoleModal">
+    <div class="modal-box" style="max-width:500px;">
+      <div class="modal-title">Confirm Role Change</div>
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;text-align:center;">Are you sure you want to change <strong id="confirmUsername"></strong>'s role?</p>
+      <div class="role-change-box">
+        <div class="role-change-row"><span>Current Role:</span><span id="currentRoleBadge"></span></div>
+        <div class="role-arrow">↓</div>
+        <div class="role-change-row"><span>New Role:</span><span id="newRoleBadge"></span></div>
+      </div>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="confirmRoleChange()">✓ Approve</button>
+        <button class="btn-modal-cancel" onclick="document.getElementById('confirmRoleModal').classList.remove('open')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE CHANGE SUCCESS MODAL -->
+  <div class="modal-overlay" id="roleSuccessModal">
+    <div class="modal-box">
+      <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
+      <div class="modal-title">Role Changed Successfully!</div>
+      <p class="modal-body"><strong id="successUsername"></strong> is now an <strong id="successNewRole"></strong>.<br>The user will have access to admin features on their next login.</p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="document.getElementById('roleSuccessModal').classList.remove('open')">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const ALL_USERS = [
+      { username:'sarah_j',       email:'sarah@example.com',  location:'New Orleans, LA',   joined:'Jan 15, 2025', joinedTs:1736899200, recipes:28, role:'USER'  },
+      { username:'mike_chef',     email:'mike@example.com',   location:'Austin, TX',        joined:'Dec 20, 2024', joinedTs:1734652800, recipes:45, role:'USER'  },
+      { username:'admin_user',    email:'admin@cookedin.com', location:'San Francisco, CA', joined:'Nov 1, 2024',  joinedTs:1730419200, recipes:5,  role:'ADMIN' },
+      { username:'emma_bakes',    email:'emma@example.com',   location:'Portland, OR',      joined:'Jan 10, 2025', joinedTs:1736467200, recipes:12, role:'USER'  },
+      { username:'breakfast_bob', email:'bob@example.com',    location:'Chicago, IL',       joined:'Dec 5, 2024',  joinedTs:1733356800, recipes:19, role:'USER'  },
+      { username:'taco_tom',      email:'tom@example.com',    location:'Dallas, TX',        joined:'Nov 15, 2024', joinedTs:1731628800, recipes:8,  role:'USER'  },
+      { username:'salad_sue',     email:'sue@example.com',    location:'Seattle, WA',       joined:'Oct 3, 2024',  joinedTs:1727913600, recipes:22, role:'USER'  },
+      { username:'baker_ben',     email:'ben@example.com',    location:'Denver, CO',        joined:'Sep 18, 2024', joinedTs:1726617600, recipes:34, role:'USER'  },
+      { username:'veggielover',   email:'veg@example.com',    location:'Portland, OR',      joined:'Aug 7, 2024',  joinedTs:1723017600, recipes:17, role:'USER'  },
+      { username:'dessert_dan',   email:'dan@example.com',    location:'Miami, FL',         joined:'Jul 22, 2024', joinedTs:1721606400, recipes:29, role:'USER'  },
+    ];
+
+    const PAGE_SIZE = 5;
+    let currentPage = 1;
+    let filteredUsers = [...ALL_USERS];
+    let editingUser = {};
+
+    function applyUserFilters() {
+      const q = document.getElementById('userSearch').value.toLowerCase();
+      const role = document.getElementById('roleFilter').value;
+      const sort = document.getElementById('sortFilter').value;
+
+      filteredUsers = ALL_USERS.filter(u =>
+        (!q || u.username.toLowerCase().includes(q) || u.email.toLowerCase().includes(q) || u.location.toLowerCase().includes(q)) &&
+        (!role || u.role === role)
+      );
+
+      filteredUsers.sort((a,b) => {
+        if (sort === 'newest')   return b.joinedTs - a.joinedTs;
+        if (sort === 'oldest')   return a.joinedTs - b.joinedTs;
+        if (sort === 'username') return a.username.localeCompare(b.username);
+        if (sort === 'recipes')  return b.recipes - a.recipes;
+        return 0;
+      });
+
+      currentPage = 1;
+      renderUsers();
+    }
+
+    function renderUsers() {
+      const start = (currentPage-1) * PAGE_SIZE;
+      const end   = start + PAGE_SIZE;
+      const page  = filteredUsers.slice(start, end);
+      const tbody = document.getElementById('usersTbody');
+      const noUsers = document.getElementById('noUsers');
+
+      if (!filteredUsers.length) { tbody.innerHTML=''; noUsers.style.display='block'; }
+      else {
+        noUsers.style.display='none';
+        tbody.innerHTML = page.map(u => `
+          <tr>
+            <td><div class="user-profile-cell">👤</div></td>
+            <td><strong>${u.username}</strong></td>
+            <td>${u.email}</td>
+            <td>${u.location}</td>
+            <td>${u.joined}</td>
+            <td>${u.recipes}</td>
+            <td><span class="${u.role==='ADMIN'?'role-badge-admin':'role-badge-user'}" id="role-${u.username}">${u.role}</span></td>
+            <td><button class="btn-edit-user" onclick="openEditUser('${u.username}','${u.email}','${u.role}')">Edit</button></td>
+          </tr>
+        `).join('');
+      }
+
+      const total = filteredUsers.length;
+      const totalPages = Math.ceil(total / PAGE_SIZE);
+      document.getElementById('usersCount').textContent = `Showing ${Math.min(end, total)} of ${total} users`;
+      renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+      const pg = document.getElementById('pagination');
+      if (totalPages <= 1) { pg.innerHTML=''; return; }
+      let btns = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled style="opacity:.4"':''}>Previous</button>`;
+      for (let i=1; i<=totalPages; i++) {
+        btns += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+      }
+      btns += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled style="opacity:.4"':''}>Next</button>`;
+      pg.innerHTML = btns;
+    }
+
+    function goPage(p) {
+      const totalPages = Math.ceil(filteredUsers.length / PAGE_SIZE);
+      if (p < 1 || p > totalPages) return;
+      currentPage = p;
+      renderUsers();
+    }
+
+    function openEditUser(username, email, role) {
+      editingUser = { username, email, currentRole: role };
+      document.getElementById('editUsername').value = username;
+      document.getElementById('editEmail').value = email;
+      document.getElementById('editRole').value = role;
+      document.getElementById('editUserModal').classList.add('open');
+    }
+
+    function submitEditUser() {
+      const newRole = document.getElementById('editRole').value;
+      editingUser.newRole = newRole;
+      document.getElementById('editUserModal').classList.remove('open');
+      if (newRole === editingUser.currentRole) return;
+      // Show confirm
+      document.getElementById('confirmUsername').textContent = editingUser.username;
+      document.getElementById('currentRoleBadge').innerHTML =
+        `<span class="${editingUser.currentRole==='ADMIN'?'role-badge-admin':'role-badge-user'}">${editingUser.currentRole}</span>`;
+      document.getElementById('newRoleBadge').innerHTML =
+        `<span class="${newRole==='ADMIN'?'role-badge-admin':'role-badge-user'}">${newRole}</span>`;
+      document.getElementById('confirmRoleModal').classList.add('open');
+    }
+
+    function confirmRoleChange() {
+      document.getElementById('confirmRoleModal').classList.remove('open');
+      // Update the data
+      const u = ALL_USERS.find(u => u.username === editingUser.username);
+      if (u) u.role = editingUser.newRole;
+      // Refresh table
+      applyUserFilters();
+      // Show success
+      document.getElementById('successUsername').textContent = editingUser.username;
+      document.getElementById('successNewRole').textContent = editingUser.newRole === 'ADMIN' ? 'Admin' : 'User';
+      document.getElementById('roleSuccessModal').classList.add('open');
+    }
+
+    applyUserFilters();
+  </script>
+</body>
+</html>

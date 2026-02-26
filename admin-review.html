@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Review Recipe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-review-page">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="admin-page-header">
+    <a class="btn-back" href="admin-pending.html">← Back to Pending</a>
+    <h1 class="admin-page-title">Review Recipe</h1>
+    <div style="width:160px;"></div>
+  </div>
+
+  <div class="review-wrap" style="margin-top:20px;">
+    <div class="review-card">
+
+      <!-- Submitter info -->
+      <div class="review-submitter">
+        <div class="avatar-circle" style="width:42px;height:42px;font-size:1.1rem;flex-shrink:0;">👤</div>
+        <div class="review-submitter-info">
+          <strong>Submitted by: sarah_j</strong>
+          <span>Email: sarah@example.com</span><br>
+          <span>Submitted: 2 hours ago</span>
+        </div>
+        <span class="pending-review-badge" id="statusBadge">PENDING REVIEW</span>
+      </div>
+
+      <!-- Recipe details -->
+      <div class="review-recipe-header">
+        <img src="https://images.unsplash.com/photo-1625943553852-781c0c6d34b4?w=400&q=80" alt="Cajun Shrimp Pasta">
+        <div>
+          <h2>Cajun Shrimp Pasta</h2>
+          <div class="review-meta-line"><strong>Category:</strong> Dinner</div>
+          <div class="review-meta-line"><strong>Difficulty:</strong> Medium</div>
+          <div class="review-meta-line"><strong>Prep Time:</strong> 15 minutes</div>
+          <div class="review-meta-line"><strong>Cook Time:</strong> 20 minutes</div>
+          <div class="review-meta-line"><strong>Servings:</strong> 4</div>
+        </div>
+      </div>
+
+      <hr class="admin-divider">
+
+      <div class="review-ingredients">
+        <div class="review-section-title">Ingredients</div>
+        <ul>
+          <li>1 lb large shrimp, peeled and deveined</li>
+          <li>12 oz fettuccine pasta</li>
+          <li>2 tbsp Cajun seasoning</li>
+          <li>3 tbsp butter</li>
+          <li>4 cloves garlic, minced</li>
+          <li>1 cup heavy cream</li>
+          <li>1/2 cup chicken broth</li>
+          <li>1/2 cup Parmesan cheese, grated</li>
+          <li>Salt and pepper to taste</li>
+          <li>Fresh parsley for garnish</li>
+        </ul>
+      </div>
+
+      <hr class="admin-divider">
+
+      <div class="review-instructions">
+        <div class="review-section-title">Instructions</div>
+        <ol>
+          <li>Cook pasta according to package directions. Drain and set aside.</li>
+          <li>Season shrimp with Cajun seasoning.</li>
+          <li>In a large skillet, melt butter over medium-high heat. Add shrimp and cook until pink, about 3 minutes per side. Remove and set aside.</li>
+          <li>In the same skillet, add garlic and cook for 30 seconds until fragrant.</li>
+          <li>Pour in heavy cream and chicken broth. Bring to a simmer.</li>
+          <li>Stir in Parmesan cheese until melted and smooth.</li>
+          <li>Add cooked pasta and shrimp back to the skillet. Toss to combine.</li>
+          <li>Season with salt and pepper. Garnish with fresh parsley and serve hot.</li>
+        </ol>
+      </div>
+
+      <hr class="admin-divider">
+
+      <!-- Admin Actions -->
+      <div class="admin-actions-section" id="adminActionsSection">
+        <h3>Admin Actions</h3>
+        <div class="admin-comment-label">Admin Comment (Optional)</div>
+        <textarea class="admin-comment-ta" id="adminComment" placeholder="Add feedback or suggestions for the user..."></textarea>
+        <div class="admin-comment-hint">This will be sent to the user as a notification if you approve, reject, or comment.</div>
+        <div class="admin-action-btns">
+          <button class="btn-approve" id="btnApprove" onclick="openApproveModal()">✓ Approve Recipe</button>
+          <button class="btn-reject" id="btnReject" onclick="openRejectModal()">✕ Reject Recipe</button>
+          <button class="btn-comment-only" id="btnComment" onclick="openCommentModal()">💬 Comment Only</button>
+        </div>
+      </div>
+
+      <!-- Status bar shown after action -->
+      <div id="statusBar" style="display:none;padding:16px;border-radius:10px;text-align:center;font-weight:700;font-size:1rem;margin-top:12px;"></div>
+
+    </div>
+  </div>
+
+  <!-- ══ APPROVE CONFIRM MODAL ══ -->
+  <div class="modal-overlay" id="approveConfirmModal">
+    <div class="modal-box">
+      <span class="modal-icon">⚠️</span>
+      <div class="modal-title">Approve Recipe?</div>
+      <p class="modal-body">Are you sure you want to approve <strong>"Cajun Shrimp Pasta"</strong>?<br>This recipe will be published and visible to all users. The author will be notified.</p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="confirmApprove()">✓ Approve Recipe</button>
+        <button class="btn-modal-cancel" onclick="closeModal('approveConfirmModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ APPROVE SUCCESS MODAL ══ -->
+  <div class="modal-overlay" id="approveSuccessModal">
+    <div class="modal-box">
+      <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
+      <div class="modal-title">Recipe Approved!</div>
+      <p class="modal-body"><strong>"Cajun Shrimp Pasta"</strong> is now live on the site.<br>The author has been notified of the approval.</p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="window.location.href='admin-pending.html'">Back to Pending</button>
+        <button class="btn-modal-cancel" onclick="closeModal('approveSuccessModal')">Stay on Page</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ REJECT REASON MODAL ══ -->
+  <div class="modal-overlay" id="rejectModal">
+    <div class="modal-box">
+      <span class="modal-icon">⚠️</span>
+      <div class="modal-title">Reject Recipe?</div>
+      <p class="modal-body">You are about to reject <strong>"Cajun Shrimp Pasta"</strong>.</p>
+      <label class="reject-reason-label">Rejection Reason *</label>
+      <textarea class="reject-modal-ta" id="rejectReason" placeholder="Please explain why this recipe is being rejected. This message will be sent to the author."></textarea>
+      <div class="modal-btns">
+        <button class="btn-modal-danger" onclick="confirmReject()">✕ Reject Recipe</button>
+        <button class="btn-modal-cancel" onclick="closeModal('rejectModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ REJECT SUCCESS MODAL ══ -->
+  <div class="modal-overlay" id="rejectSuccessModal">
+    <div class="modal-box">
+      <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
+      <div class="modal-title">Recipe Rejected</div>
+      <p class="modal-body"><strong>"Cajun Shrimp Pasta"</strong> has been rejected.<br>The author has been notified with your feedback.</p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="window.location.href='admin-pending.html'">Back to Pending</button>
+        <button class="btn-modal-cancel" onclick="closeModal('rejectSuccessModal')">Stay on Page</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ COMMENT CONFIRM MODAL ══ -->
+  <div class="modal-overlay" id="commentConfirmModal">
+    <div class="modal-box">
+      <span class="modal-icon">💬</span>
+      <div class="modal-title">Send Comment?</div>
+      <p class="modal-body">Your comment will be sent to <strong>sarah_j</strong> as a notification. The recipe will remain pending.</p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="confirmComment()">Send Comment</button>
+        <button class="btn-modal-cancel" onclick="closeModal('commentConfirmModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ COMMENT SUCCESS MODAL ══ -->
+  <div class="modal-overlay" id="commentSuccessModal">
+    <div class="modal-box">
+      <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
+      <div class="modal-title">Comment Sent!</div>
+      <p class="modal-body">Your feedback has been sent to <strong>sarah_j</strong>.<br>The recipe remains <strong>pending</strong> and awaits further review.</p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="closeModal('commentSuccessModal')">Continue Reviewing</button>
+        <button class="btn-modal-cancel" onclick="window.location.href='admin-pending.html'">Back to Pending</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    // ── APPROVE ──
+    function openApproveModal() {
+      closeModal('rejectModal');
+      closeModal('commentConfirmModal');
+      document.getElementById('approveConfirmModal').classList.add('open');
+    }
+
+    function confirmApprove() {
+      closeModal('approveConfirmModal');
+      // Update status badge
+      const badge = document.getElementById('statusBadge');
+      badge.textContent = 'APPROVED';
+      badge.style.background = '#27ae60';
+      // Disable action buttons
+      setActionsDone('approved');
+      // Show success modal
+      document.getElementById('approveSuccessModal').classList.add('open');
+    }
+
+    // ── REJECT ──
+    function openRejectModal() {
+      closeModal('approveConfirmModal');
+      closeModal('commentConfirmModal');
+      document.getElementById('rejectReason').value = '';
+      document.getElementById('rejectModal').classList.add('open');
+    }
+
+    function confirmReject() {
+      const reason = document.getElementById('rejectReason').value.trim();
+      if (!reason) {
+        document.getElementById('rejectReason').style.borderColor = '#c0392b';
+        document.getElementById('rejectReason').placeholder = 'Rejection reason is required!';
+        return;
+      }
+      closeModal('rejectModal');
+      // Update status badge
+      const badge = document.getElementById('statusBadge');
+      badge.textContent = 'REJECTED';
+      badge.style.background = '#c0392b';
+      // Disable action buttons
+      setActionsDone('rejected');
+      // Show success modal
+      document.getElementById('rejectSuccessModal').classList.add('open');
+    }
+
+    // ── COMMENT ONLY ──
+    function openCommentModal() {
+      const comment = document.getElementById('adminComment').value.trim();
+      if (!comment) {
+        document.getElementById('adminComment').style.borderColor = '#c0392b';
+        document.getElementById('adminComment').placeholder = 'Please add a comment before sending!';
+        setTimeout(() => {
+          document.getElementById('adminComment').style.borderColor = '';
+          document.getElementById('adminComment').placeholder = 'Add feedback or suggestions for the user...';
+        }, 3000);
+        return;
+      }
+      closeModal('approveConfirmModal');
+      closeModal('rejectModal');
+      document.getElementById('commentConfirmModal').classList.add('open');
+    }
+
+    function confirmComment() {
+      closeModal('commentConfirmModal');
+      document.getElementById('commentSuccessModal').classList.add('open');
+      // Clear comment box
+      document.getElementById('adminComment').value = '';
+    }
+
+    function setActionsDone(status) {
+      const section = document.getElementById('adminActionsSection');
+      const btns = section.querySelectorAll('button');
+      btns.forEach(b => { b.disabled = true; b.style.opacity = '0.5'; b.style.cursor = 'not-allowed'; });
+      // Show status bar
+      const bar = document.getElementById('statusBar');
+      bar.style.display = 'block';
+      if (status === 'approved') {
+        bar.style.background = '#d5f5e3';
+        bar.style.color = '#1e8449';
+        bar.style.border = '1.5px solid #27ae60';
+        bar.textContent = '✓ Recipe has been approved and is now live.';
+      } else {
+        bar.style.background = '#fde8e8';
+        bar.style.color = '#922b21';
+        bar.style.border = '1.5px solid #c0392b';
+        bar.textContent = '✕ Recipe has been rejected. Author notified.';
+      }
+    }
+  </script>
+</body>
+</html>

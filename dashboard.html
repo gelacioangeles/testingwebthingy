@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-page">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <h1 class="dashboard-title">User Dashboard</h1>
+
+  <div class="dashboard-list">
+
+    <a class="dash-card" href="my-recipes.html">
+      <div class="dash-icon">📋</div>
+      <div class="dash-label">My Recipes</div>
+      <div class="dash-sub">11 recipes</div>
+    </a>
+
+    <a class="dash-card" href="my-favorites.html">
+      <div class="dash-icon">♥</div>
+      <div class="dash-label">My Favorites</div>
+      <div class="dash-sub">24 recipes</div>
+    </a>
+
+    <a class="dash-card" href="notifications.html">
+      <div class="dash-icon">🔔</div>
+      <div class="dash-label">Notifications</div>
+      <div class="dash-sub">3 unread</div>
+      <span class="dash-badge">3</span>
+    </a>
+
+    <a class="dash-card" href="browse.html">
+      <div class="dash-icon">🔍</div>
+      <div class="dash-label">Browse Recipes</div>
+      <div class="dash-sub">Discover new dishes</div>
+    </a>
+
+    <a class="dash-card" href="my-profile.html">
+      <div class="dash-icon">👤</div>
+      <div class="dash-label">My Profile</div>
+      <div class="dash-sub">Edit your info</div>
+    </a>
+
+    <a class="dash-card" href="create-recipe.html">
+      <div class="dash-icon">＋</div>
+      <div class="dash-label">Create Recipe</div>
+      <div class="dash-sub">Share your creation</div>
+    </a>
+
+    <a class="dash-card" href="admin-panel.html">
+      <div class="dash-icon">🛡️</div>
+      <div class="dash-label">Admin Panel</div>
+      <div class="dash-sub">Manage website</div>
+    </a>
+
+    <a class="dash-card" href="#" onclick="openLogoutModal(); return false;">
+      <div class="dash-icon">🚪</div>
+      <div class="dash-label">Log out</div>
+    </a>
+
+  </div>
+
+  <!-- LOGOUT CONFIRM MODAL -->
+  <div class="modal-overlay" id="logoutModal">
+    <div class="modal-box">
+      <span class="modal-icon">⚠️</span>
+      <div class="modal-title">Logging out?</div>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="confirmLogout()">Continue</button>
+        <button class="btn-modal-cancel" onclick="closeLogoutModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGOUT SUCCESS MODAL -->
+  <div class="modal-overlay" id="logoutSuccessModal">
+    <div class="modal-box">
+      <span class="modal-icon">✓</span>
+      <div class="modal-title">Log out Successful!</div>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="window.location.href='login.html'">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="recent-activity">
+    <h3>Recent Activity</h3>
+    <div class="activity-card">
+      <strong>Recipe Approved</strong>
+      <span>Your "Chicken Alfredo Pasta" was approved • 2 hours ago</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    function openLogoutModal() {
+      document.getElementById('logoutModal').classList.add('open');
+    }
+    function closeLogoutModal() {
+      document.getElementById('logoutModal').classList.remove('open');
+    }
+    function confirmLogout() {
+      document.getElementById('logoutModal').classList.remove('open');
+      document.getElementById('logoutSuccessModal').classList.add('open');
+    }
+  </script>
+</body>
+</html>

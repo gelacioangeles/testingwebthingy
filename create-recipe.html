@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Create Recipe</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .ing-add-row { display:flex; gap:8px; margin-top:10px; align-items:center; }
+    .ing-add-row input { flex:1; border:1.5px solid #b0a898; border-radius:8px; padding:9px 14px; font-size:0.9rem; font-family:'Lato',sans-serif; outline:none; }
+    .ing-add-row input:focus { border-color:var(--green); }
+    .ing-add-row select { border:1.5px solid #b0a898; border-radius:8px; padding:9px 10px; font-size:0.9rem; font-family:'Lato',sans-serif; outline:none; }
+    .ing-name-input { border:1.5px solid #b0a898; border-radius:8px; padding:9px 14px; font-size:0.9rem; font-family:'Lato',sans-serif; outline:none; flex:2!important; }
+  </style>
+</head>
+<body class="recipe-form-page">
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <h1 class="recipe-form-title">Create Recipe</h1>
+
+  <div class="recipe-form-card">
+    <div class="field">
+      <label>Recipe Title *</label>
+      <input type="text" id="recipeTitle" placeholder="e.g., Grandma's Apple Pie">
+    </div>
+
+    <div class="recipe-form-row">
+      <div class="field">
+        <label>Category *</label>
+        <select id="recipeCategory">
+          <option value="">Select a category...</option>
+          <option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Dessert</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Difficulty *</label>
+        <select id="recipeDiff">
+          <option value="">Select difficulty...</option>
+          <option>Easy</option><option>Medium</option><option>Hard</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="recipe-form-row-3">
+      <div class="field"><label>Prep Time (minutes)</label><input type="number" id="prepTime" value="15" min="0"></div>
+      <div class="field"><label>Cook Time (minutes)</label><input type="number" id="cookTime" value="30" min="0"></div>
+      <div class="field"><label>Servings</label><input type="number" id="servings" value="4" min="1"></div>
+    </div>
+
+    <div class="field">
+      <label>Recipe Image URL *</label>
+      <input type="url" id="recipeImg" placeholder="https://...">
+    </div>
+
+    <div class="field">
+      <label>Instructions *</label>
+      <textarea id="recipeInstructions" placeholder="Step by step instructions...&#10;1. First, prepare the ingredients...&#10;2. Then, heat the pan...&#10;3. Finally, serve hot..."></textarea>
+    </div>
+
+    <hr class="recipe-form-divider">
+
+    <h3>Ingredients</h3>
+
+    <div class="ingredient-search-row">
+      <input type="text" id="ingSearchInput" placeholder="Search or add ingredient (e.g., 'flour', 'chicken breast')...">
+      <button type="button" class="btn-search-ing" onclick="addIngredientFromSearch()">Search</button>
+    </div>
+
+    <div class="ingredients-list-wrap" id="ingredientsList">
+      <div class="ingredient-row" id="ing-1">
+        <div style="flex:1;">
+          <div class="ingredient-name">All-purpose flour</div>
+          <div style="display:flex;gap:8px;margin-top:4px;">
+            <input class="ingredient-amt" type="text" value="2">
+            <select class="ingredient-unit"><option>cups</option><option>tbsp</option><option>tsp</option><option>oz</option><option>g</option></select>
+          </div>
+        </div>
+        <button type="button" class="btn-remove-ing" onclick="removeIng('ing-1')">Remove</button>
+      </div>
+      <div class="ingredient-row" id="ing-2">
+        <div style="flex:1;">
+          <div class="ingredient-name">Sugar</div>
+          <div style="display:flex;gap:8px;margin-top:4px;">
+            <input class="ingredient-amt" type="text" value="1">
+            <select class="ingredient-unit"><option>cups</option><option>tbsp</option><option>tsp</option><option>oz</option><option>g</option></select>
+          </div>
+        </div>
+        <button type="button" class="btn-remove-ing" onclick="removeIng('ing-2')">Remove</button>
+      </div>
+      <div class="ingredient-row" id="ing-3">
+        <div style="flex:1;">
+          <div class="ingredient-name">Butter</div>
+          <div style="display:flex;gap:8px;margin-top:4px;">
+            <input class="ingredient-amt" type="text" value="1/2">
+            <select class="ingredient-unit"><option>cups</option><option>tbsp</option><option>tsp</option><option>oz</option><option>g</option></select>
+          </div>
+        </div>
+        <button type="button" class="btn-remove-ing" onclick="removeIng('ing-3')">Remove</button>
+      </div>
+    </div>
+
+    <!-- Inline add ingredient form -->
+    <div id="addIngForm" style="background:#faf8f4;border:1.5px solid #d8d0c4;border-radius:10px;padding:14px 16px;margin-bottom:14px;display:none;">
+      <div style="font-weight:700;font-size:0.9rem;margin-bottom:10px;">Add Ingredient</div>
+      <div class="ing-add-row">
+        <input type="text" id="newIngName" class="ing-name-input" placeholder="Ingredient name...">
+        <input type="text" id="newIngAmt" style="width:70px;" placeholder="Amt">
+        <select id="newIngUnit">
+          <option>cups</option><option>tbsp</option><option>tsp</option><option>oz</option><option>g</option><option>lb</option><option>ml</option><option>l</option>
+        </select>
+        <button type="button" class="btn-search-ing" style="padding:9px 16px;" onclick="confirmAddIng()">Add</button>
+        <button type="button" class="btn-modal-cancel" style="padding:9px 14px;border-radius:8px;border:1.5px solid #b0a898;background:#fff;cursor:pointer;font-family:'Lato',sans-serif;" onclick="document.getElementById('addIngForm').style.display='none'">Cancel</button>
+      </div>
+    </div>
+
+    <button type="button" class="btn-add-ingredient" onclick="document.getElementById('addIngForm').style.display='block';document.getElementById('newIngName').focus()">+ Add Another Ingredient</button>
+
+    <div class="recipe-form-btns">
+      <button type="button" class="btn-submit-recipe" onclick="submitRecipe()">Submit Recipe</button>
+      <button type="button" class="btn-cancel-recipe" onclick="window.location.href='dashboard.html'">Cancel</button>
+    </div>
+  </div>
+
+  <!-- SUBMIT SUCCESS MODAL -->
+  <div class="modal-overlay" id="submitSuccessModal">
+    <div class="modal-box">
+      <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
+      <div class="modal-title">Recipe Submitted!</div>
+      <p class="modal-body">Your recipe has been submitted for review. You'll be notified once it's approved.</p>
+      <div class="modal-btns">
+        <button class="btn-modal-confirm" onclick="window.location.href='my-recipes.html'">View My Recipes</button>
+        <button class="btn-modal-cancel" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    let ingCount = 3;
+
+    function removeIng(id) { document.getElementById(id)?.remove(); }
+
+    function addIngredientFromSearch() {
+      const val = document.getElementById('ingSearchInput').value.trim();
+      if (!val) { document.getElementById('addIngForm').style.display='block'; document.getElementById('newIngName').value=val; document.getElementById('newIngName').focus(); return; }
+      document.getElementById('newIngName').value = val;
+      document.getElementById('addIngForm').style.display = 'block';
+      document.getElementById('newIngName').focus();
+      document.getElementById('ingSearchInput').value = '';
+    }
+
+    function confirmAddIng() {
+      const name = document.getElementById('newIngName').value.trim();
+      if (!name) return;
+      const amt  = document.getElementById('newIngAmt').value || '1';
+      const unit = document.getElementById('newIngUnit').value;
+      ingCount++;
+      const id = 'ing-' + ingCount;
+      const row = document.createElement('div');
+      row.className = 'ingredient-row'; row.id = id;
+      row.innerHTML = `<div style="flex:1;"><div class="ingredient-name">${name}</div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <input class="ingredient-amt" type="text" value="${amt}">
+          <select class="ingredient-unit">
+            ${['cups','tbsp','tsp','oz','g','lb','ml','l'].map(u=>`<option${u===unit?' selected':''}>${u}</option>`).join('')}
+          </select>
+        </div></div>
+        <button type="button" class="btn-remove-ing" onclick="removeIng('${id}')">Remove</button>`;
+      document.getElementById('ingredientsList').appendChild(row);
+      document.getElementById('addIngForm').style.display = 'none';
+      document.getElementById('newIngName').value = '';
+      document.getElementById('newIngAmt').value = '';
+    }
+
+    function submitRecipe() {
+      const title = document.getElementById('recipeTitle').value.trim();
+      const cat   = document.getElementById('recipeCategory').value;
+      const diff  = document.getElementById('recipeDiff').value;
+      const instr = document.getElementById('recipeInstructions').value.trim();
+      if (!title) { alert('Please enter a recipe title.'); return; }
+      if (!cat)   { alert('Please select a category.'); return; }
+      if (!diff)  { alert('Please select a difficulty.'); return; }
+      if (!instr) { alert('Please add instructions.'); return; }
+      document.getElementById('submitSuccessModal').classList.add('open');
+    }
+
+    // Allow Enter in search bar
+    document.getElementById('ingSearchInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') addIngredientFromSearch();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CookedIn - Sarah Johnson</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="user-profile-page">
+
+  <nav>
+    <a class="logo" href="index.html">Cook<span>edIn</span></a>
+    <a class="bell" href="notifications.html" style="text-decoration:none;">🔔<span class="bell-badge">1</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="user-profile-wrap">
+    <div class="user-profile-header">
+      <div class="avatar-circle">👤</div>
+      <h1>Sarah Johnson</h1>
+      <p class="username">@sarah_j</p>
+      <p class="location">📍 New Orleans, Louisiana</p>
+    </div>
+
+    <div class="about-card">
+      <h3>About Me</h3>
+      <p>Food enthusiast and home cook passionate about Southern cuisine. Love experimenting with traditional recipes and sharing them with others! I've been cooking for over 10 years and specialize in Cajun and Creole dishes.</p>
+      <hr class="about-divider">
+      <div class="about-stats">
+        <div class="stat-item"><div class="stat-num">28</div><div class="stat-label">Recipes</div></div>
+        <div class="stat-item"><div class="stat-num">4.8★</div><div class="stat-label">Avg Rating</div></div>
+      </div>
+    </div>
+
+    <div class="user-recipes-header">
+      <h2>Sarah's Recipes (<span id="recipeCount">3</span>)</h2>
+      <div class="sort-tabs">
+        <button class="sort-tab active" data-sort="popular" onclick="setSortTab(this)">Most Popular</button>
+        <button class="sort-tab" data-sort="newest" onclick="setSortTab(this)">Newest</button>
+      </div>
+    </div>
+
+    <div id="profileRecipes"></div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const PROFILE_RECIPES = [
+      { title:'Creole Gumbo',   ratings:1386, stars:5, img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=700&q=80',  date:2024 },
+      { title:'Shrimp Étouffée',ratings:659,  stars:4, img:'https://images.unsplash.com/photo-1604908177453-7462950a6a3b?w=700&q=80', date:2023 },
+      { title:'Best Jambalaya', ratings:1241, stars:4, img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=700&q=80', date:2025 },
+    ];
+
+    let currentSort = 'popular';
+
+    function renderProfileRecipes(sort) {
+      const list = [...PROFILE_RECIPES].sort((a,b) =>
+        sort === 'popular' ? b.ratings - a.ratings : b.date - a.date
+      );
+      document.getElementById('recipeCount').textContent = list.length;
+      document.getElementById('profileRecipes').innerHTML = list.map(r => `
+        <div class="user-recipe-card">
+          <img src="${r.img}" alt="${r.title}" style="cursor:pointer;" onclick="window.location.href='recipe-detail.html?recipe='+encodeURIComponent('${r.title.replace(/'/g,"\\'")}')">
+          <div class="user-recipe-info">
+            <h3>${r.title}</h3>
+            <div class="stars" style="color:#e67e00;">${'★'.repeat(r.stars)+'☆'.repeat(5-r.stars)}</div>
+            <div class="rating-count">${r.ratings.toLocaleString()} Ratings</div>
+          </div>
+          <a class="btn-view-recipe" href="recipe-detail.html?recipe=${encodeURIComponent(r.title)}">View Recipe</a>
+        </div>
+      `).join('');
+    }
+
+    function setSortTab(btn) {
+      document.querySelectorAll('.sort-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      currentSort = btn.dataset.sort;
+      renderProfileRecipes(currentSort);
+    }
+
+    renderProfileRecipes(currentSort);
+  </script>
+</body>
+</html>
