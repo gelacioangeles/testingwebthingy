@@ -29,7 +29,7 @@
   <div class="review-wrap" style="margin-top:20px;">
     <div class="review-card">
 
-      <!-- Submitter info -->
+      <!-- The submitter info. -->
       <div class="review-submitter">
         <div class="avatar-circle" style="width:42px;height:42px;font-size:1.1rem;flex-shrink:0;">👤</div>
         <div class="review-submitter-info">
@@ -40,7 +40,7 @@
         <span class="pending-review-badge" id="statusBadge">PENDING REVIEW</span>
       </div>
 
-      <!-- Recipe details -->
+      <!-- The recipe header details. -->
       <div class="review-recipe-header">
         <img src="https://images.unsplash.com/photo-1625943553852-781c0c6d34b4?w=400&q=80" alt="Cajun Shrimp Pasta">
         <div>
@@ -89,7 +89,7 @@
 
       <hr class="admin-divider">
 
-      <!-- Admin Actions -->
+      <!-- The admin actions section.-->
       <div class="admin-actions-section" id="adminActionsSection">
         <h3>Admin Actions</h3>
         <div class="admin-comment-label">Admin Comment (Optional)</div>
@@ -102,13 +102,13 @@
         </div>
       </div>
 
-      <!-- Status bar shown after action -->
+      <!-- The status bar shown after an action. -->
       <div id="statusBar" style="display:none;padding:16px;border-radius:10px;text-align:center;font-weight:700;font-size:1rem;margin-top:12px;"></div>
 
     </div>
   </div>
 
-  <!-- ══ APPROVE CONFIRM MODAL ══ -->
+  <!-- The approve confirmation modal. -->
   <div class="modal-overlay" id="approveConfirmModal">
     <div class="modal-box">
       <span class="modal-icon">⚠️</span>
@@ -121,7 +121,7 @@
     </div>
   </div>
 
-  <!-- ══ APPROVE SUCCESS MODAL ══ -->
+  <!-- The approve success modal. -->
   <div class="modal-overlay" id="approveSuccessModal">
     <div class="modal-box">
       <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
@@ -134,7 +134,7 @@
     </div>
   </div>
 
-  <!-- ══ REJECT REASON MODAL ══ -->
+  <!-- The reject reason modal. -->
   <div class="modal-overlay" id="rejectModal">
     <div class="modal-box">
       <span class="modal-icon">⚠️</span>
@@ -149,7 +149,7 @@
     </div>
   </div>
 
-  <!-- ══ REJECT SUCCESS MODAL ══ -->
+  <!-- The reject success modal. -->
   <div class="modal-overlay" id="rejectSuccessModal">
     <div class="modal-box">
       <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
@@ -162,7 +162,7 @@
     </div>
   </div>
 
-  <!-- ══ COMMENT CONFIRM MODAL ══ -->
+  <!-- The comment confirm modal. -->
   <div class="modal-overlay" id="commentConfirmModal">
     <div class="modal-box">
       <span class="modal-icon">💬</span>
@@ -175,7 +175,7 @@
     </div>
   </div>
 
-  <!-- ══ COMMENT SUCCESS MODAL ══ -->
+  <!-- The comment success modal. -->
   <div class="modal-overlay" id="commentSuccessModal">
     <div class="modal-box">
       <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
@@ -194,7 +194,7 @@
       document.getElementById(id).classList.remove('open');
     }
 
-    // ── APPROVE ──
+    // Approve flow.
     function openApproveModal() {
       closeModal('rejectModal');
       closeModal('commentConfirmModal');
@@ -203,17 +203,17 @@
 
     function confirmApprove() {
       closeModal('approveConfirmModal');
-      // Update status badge
+      // Updating the status badge.
       const badge = document.getElementById('statusBadge');
       badge.textContent = 'APPROVED';
       badge.style.background = '#27ae60';
-      // Disable action buttons
+      // Disabling the action buttons.
       setActionsDone('approved');
-      // Show success modal
+      // Showing the success modal.
       document.getElementById('approveSuccessModal').classList.add('open');
     }
 
-    // ── REJECT ──
+    // Reject flow.
     function openRejectModal() {
       closeModal('approveConfirmModal');
       closeModal('commentConfirmModal');
@@ -229,17 +229,17 @@
         return;
       }
       closeModal('rejectModal');
-      // Update status badge
+      // Updating the status badge.
       const badge = document.getElementById('statusBadge');
       badge.textContent = 'REJECTED';
       badge.style.background = '#c0392b';
-      // Disable action buttons
+      // Disabling the action buttons.
       setActionsDone('rejected');
-      // Show success modal
+      // Showing the success modal.
       document.getElementById('rejectSuccessModal').classList.add('open');
     }
 
-    // ── COMMENT ONLY ──
+    // Comment only flow.
     function openCommentModal() {
       const comment = document.getElementById('adminComment').value.trim();
       if (!comment) {
@@ -259,7 +259,7 @@
     function confirmComment() {
       closeModal('commentConfirmModal');
       document.getElementById('commentSuccessModal').classList.add('open');
-      // Clear comment box
+      // Clear the comment box.
       document.getElementById('adminComment').value = '';
     }
 
@@ -267,7 +267,7 @@
       const section = document.getElementById('adminActionsSection');
       const btns = section.querySelectorAll('button');
       btns.forEach(b => { b.disabled = true; b.style.opacity = '0.5'; b.style.cursor = 'not-allowed'; });
-      // Show status bar
+      // Shows the status bar.
       const bar = document.getElementById('statusBar');
       bar.style.display = 'block';
       if (status === 'approved') {

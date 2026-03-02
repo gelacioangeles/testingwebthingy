@@ -1,6 +1,6 @@
-/* ── script.js ── Shared JavaScript for CookedIn ── */
+/* JavaScript for CookedIn.  */
 
-// Highlight active nav link based on current page
+// Highlighting the active nav link based on current page.
 document.addEventListener('DOMContentLoaded', function() {
   var page = window.location.pathname.split('/').pop();
   var links = document.querySelectorAll('.nav-links a');
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// ── Filter tabs (landing page) ──
+// Filter tabs (landing page).
 function setTab(el) {
   var tabs = document.querySelectorAll('.tab');
   for (var i = 0; i < tabs.length; i++) {
@@ -19,7 +19,7 @@ function setTab(el) {
   el.classList.add('active');
 }
 
-// ── Sign Up validation ──
+// Sign Up validation
 function handleSignUp(e) {
   e.preventDefault();
   var firstNameEl = document.getElementById('firstName');
@@ -55,7 +55,7 @@ function handleSignUp(e) {
   window.location.href = 'login.html';
 }
 
-// ── Login validation ──
+// Login validation.
 function handleLogin(e) {
   e.preventDefault();
   var emailEl    = document.getElementById('email');
@@ -75,7 +75,7 @@ function handleLogin(e) {
   window.location.href = 'index.html';
 }
 
-// ── Reset Password (send email) ──
+// Reset Password (send email).
 function handleResetRequest(e) {
   e.preventDefault();
   var emailEl = document.getElementById('email');
@@ -92,7 +92,7 @@ function handleResetRequest(e) {
   window.location.href = 'confirmation.html';
 }
 
-// ── New Password ──
+// New Password.
 function handleNewPassword(e) {
   e.preventDefault();
   var passwordEl = document.getElementById('newPassword');
@@ -116,7 +116,7 @@ function handleNewPassword(e) {
   window.location.href = 'login.html';
 }
 
-// ── Helpers ──
+// Helpers.
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -134,7 +134,7 @@ function showError(msg) {
   setTimeout(function() { el.textContent = ''; }, 4000);
 }
 
-// Google SVG helper — reusable
+// The Google SVG helper.
 var GOOGLE_SVG = '<svg width="22" height="22" viewBox="0 0 48 48">' +
   '<path fill="#EA4335" d="M24 9.5c3.1 0 5.6 1.1 7.5 2.8l5.6-5.6C33.5 3.5 29.1 1.5 24 1.5 14.9 1.5 7.2 7 3.8 14.8l6.6 5.1C12.1 13.5 17.5 9.5 24 9.5z"/>' +
   '<path fill="#4285F4" d="M46.5 24c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8C43.6 36.8 46.5 30.8 46.5 24z"/>' +

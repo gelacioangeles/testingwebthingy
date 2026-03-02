@@ -58,7 +58,7 @@
     <div class="pagination" id="pagination"></div>
   </div>
 
-  <!-- EDIT USER MODAL -->
+  <!-- The edit user modal. -->
   <div class="modal-overlay edit-user-modal" id="editUserModal">
     <div class="modal-box" style="max-width:480px;text-align:left;">
       <div class="modal-title" style="text-align:center;">Edit User</div>
@@ -82,7 +82,7 @@
     </div>
   </div>
 
-  <!-- CONFIRM ROLE CHANGE MODAL -->
+  <!-- The confirm role change modal. -->
   <div class="modal-overlay" id="confirmRoleModal">
     <div class="modal-box" style="max-width:500px;">
       <div class="modal-title">Confirm Role Change</div>
@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  <!-- ROLE CHANGE SUCCESS MODAL -->
+  <!-- The role change success modal. -->
   <div class="modal-overlay" id="roleSuccessModal">
     <div class="modal-box">
       <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
@@ -214,7 +214,7 @@
       editingUser.newRole = newRole;
       document.getElementById('editUserModal').classList.remove('open');
       if (newRole === editingUser.currentRole) return;
-      // Show confirm
+      // Showing the confirmation.
       document.getElementById('confirmUsername').textContent = editingUser.username;
       document.getElementById('currentRoleBadge').innerHTML =
         `<span class="${editingUser.currentRole==='ADMIN'?'role-badge-admin':'role-badge-user'}">${editingUser.currentRole}</span>`;
@@ -225,12 +225,12 @@
 
     function confirmRoleChange() {
       document.getElementById('confirmRoleModal').classList.remove('open');
-      // Update the data
+      // Updating the data.
       const u = ALL_USERS.find(u => u.username === editingUser.username);
       if (u) u.role = editingUser.newRole;
-      // Refresh table
+      // Refreshes the table.
       applyUserFilters();
-      // Show success
+      // Shows the success.
       document.getElementById('successUsername').textContent = editingUser.username;
       document.getElementById('successNewRole').textContent = editingUser.newRole === 'ADMIN' ? 'Admin' : 'User';
       document.getElementById('roleSuccessModal').classList.add('open');

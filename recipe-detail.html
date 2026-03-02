@@ -22,7 +22,7 @@
 
   <div class="recipe-detail-wrap">
 
-    <!-- HEADER ROW -->
+    <!-- The header. -->
     <div class="recipe-detail-header">
       <div class="avatar-sm">👤</div>
       <div>
@@ -32,7 +32,7 @@
       <button class="recipe-detail-fav" id="favBtn" onclick="toggleFav()">♡</button>
     </div>
 
-    <!-- MAIN BODY: image + ingredients side by side -->
+    <!-- The main body made up of the images and ingredients side by side. -->
     <div class="recipe-detail-body">
       <div>
         <img class="recipe-main-img"
@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <!-- TWO-COL: instructions + comments -->
+    <!-- The two collumns,instructions and comments. -->
     <div class="recipe-detail-cols">
       <div>
         <h2 style="font-size:1.2rem; font-weight:900; margin-bottom:8px;">Chicken Alfredo Casserole</h2>
@@ -89,7 +89,7 @@
         </div>
       </div>
 
-      <!-- COMMENTS SIDEBAR -->
+      <!-- The comments sidebar. -->
       <div class="comments-section">
         <h3>Comments (12)</h3>
 
@@ -163,7 +163,7 @@
       document.querySelector('.add-comment-section').insertAdjacentElement('beforebegin', newComment);
       ta.value = '';
 
-      // Update comment count
+      // Updating the comment count.
       const h3 = document.querySelector('.comments-section h3');
       const count = document.querySelectorAll('.comment-item').length;
       h3.textContent = `Comments (${count})`;

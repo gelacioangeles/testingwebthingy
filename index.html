@@ -38,7 +38,7 @@
   <section class="popular">
     <h2>Popular Dishes</h2>
     <div class="dish-grid" id="dishGrid">
-      <!-- Cards injected by JS, each with data-cat -->
+      <!-- The cards are injected by JS along with each data-cat. -->
     </div>
   </section>
 
@@ -89,10 +89,10 @@
       window.location.href = 'recipe-detail.html?recipe=' + encodeURIComponent(title);
     }
 
-    // Init
+    // The Init.
     renderDishes(activeCat);
 
-    // Allow Enter key on search
+    // Allowing the enter key on search.
     document.getElementById('heroSearch').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') doSearch();
     });

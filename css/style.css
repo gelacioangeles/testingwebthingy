@@ -1,7 +1,7 @@
-/* ── Google Fonts ── */
+/* Google Fonts. */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&family=Roboto:wght@300;400;500;700&display=swap');
 
-/* ── Reset & Variables ── */
+/* Reset & Variables. */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -32,7 +32,7 @@ body {
   line-height: 1.5;
 }
 
-/* ── NAV ── */
+/* The nav. */
 nav {
   position: sticky;
   top: 0;
@@ -99,7 +99,7 @@ nav {
 .nav-links a:hover { background: #d6cfbf; }
 .nav-links a.active { background: #ccc7b8; border-color: var(--border); }
 
-/* ── SHARED FORM STYLES ── */
+/* The shared form styles. */
 .page-title {
   text-align: center;
   font-size: 1.8rem;
@@ -208,7 +208,7 @@ input:focus { border-color: var(--green); }
 }
 .bottom-link a:hover { text-decoration: underline; }
 
-/* ── SIGN UP GRID ── */
+/* The sign up form grid. */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -222,7 +222,7 @@ input:focus { border-color: var(--green); }
   margin-right: auto;
 }
 
-/* ── LOGIN ── */
+/* Login. */
 .checkbox-row {
   display: flex;
   align-items: center;
@@ -248,7 +248,7 @@ input:focus { border-color: var(--green); }
   margin-bottom: 0;
 }
 
-/* ── RESET / NEW PASSWORD ── */
+/* Reset or new password. */
 .desc {
   font-size: 1rem;
   color: var(--text);
@@ -256,7 +256,7 @@ input:focus { border-color: var(--green); }
   line-height: 1.6;
 }
 
-/* ── CONFIRMATION ── */
+/* Confirmation. */
 .confirm-card {
   max-width: 620px;
   margin: 48px auto;
@@ -278,7 +278,7 @@ input:focus { border-color: var(--green); }
 .confirm-text { font-size: 1.1rem; color: var(--text); margin-bottom: 22px; }
 .confirm-sub { font-size: 1rem; color: var(--muted); line-height: 1.6; }
 
-/* ── LANDING ── */
+/* Landing. */
 body.landing { background: var(--white); }
 
 .hero {
@@ -371,9 +371,7 @@ body.landing { background: var(--white); }
   font-weight: 600;
 }
 
-/* ═══════════════════════════════════════
-   BROWSE PAGE
-═══════════════════════════════════════ */
+/* Browse page. */
 body.browse-page { background: var(--bg); }
 
 .browse-layout { display: flex; gap: 0; min-height: calc(100vh - 60px); }
@@ -478,9 +476,7 @@ body.browse-page { background: var(--bg); }
 .stars { color: #e67e00; font-size: 0.85rem; display: flex; align-items: center; gap: 4px; }
 .stars span { color: var(--muted); font-size: 0.8rem; font-weight: 400; }
 
-/* ═══════════════════════════════════════
-   SEARCH RESULTS PAGE
-═══════════════════════════════════════ */
+/* Search result page. */
 body.search-page { background: var(--bg); }
 
 .search-results-title { font-size: 1.5rem; font-weight: 700; padding: 20px 0 16px 28px; }
@@ -535,9 +531,7 @@ input[type="range"]::-webkit-slider-thumb {
 .recipe-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 0 20px 0 0; }
 .search-main { flex: 1; padding: 0 20px 40px 24px; }
 
-/* ═══════════════════════════════════════
-   DASHBOARD PAGE
-═══════════════════════════════════════ */
+/* Dashboard page. */
 body.dashboard-page { background: var(--bg); }
 
 .dashboard-title { text-align: center; font-size: 1.8rem; font-weight: 700; padding: 28px 0 20px; }
@@ -580,9 +574,7 @@ body.dashboard-page { background: var(--bg); }
 .activity-card strong { display: block; font-size: 0.95rem; margin-bottom: 2px; }
 .activity-card span { color: var(--muted); }
 
-/* ═══════════════════════════════════════
-   MY PROFILE PAGE
-═══════════════════════════════════════ */
+/* My profile page. */
 body.profile-page { background: var(--bg); }
 
 .profile-edit-wrap { max-width: 640px; margin: 0 auto; padding: 0 20px 48px; }
@@ -665,9 +657,7 @@ body.profile-page { background: var(--bg); }
 }
 .btn-cancel:hover { background: #f5f2ec; }
 
-/* ═══════════════════════════════════════
-   ANOTHER USER'S PROFILE PAGE
-═══════════════════════════════════════ */
+/* Another user's profile page. */
 body.user-profile-page { background: var(--bg); }
 
 .user-profile-wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px 48px; }
@@ -702,9 +692,7 @@ body.user-profile-page { background: var(--bg); }
 .btn-view-recipe { display: block; width: calc(100% - 32px); margin: 0 16px 16px; background: var(--green); color: #fff; border: none; border-radius: var(--radius); padding: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; font-family: 'Poppins', Arial, sans-serif; transition: background-color 0.3s ease; }
 .btn-view-recipe:hover { background: var(--green-hover); }
 
-/* ═══════════════════════════════════════
-   MODAL OVERLAY
-═══════════════════════════════════════ */
+/* Modal overlay. */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(80,72,60,0.55); z-index: 1000; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
 
@@ -721,9 +709,7 @@ body.user-profile-page { background: var(--bg); }
 .btn-modal-danger { background: #c0392b; color: #fff; border: none; border-radius: var(--radius); padding: 12px 30px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; transition: background-color 0.3s ease; }
 .btn-modal-danger:hover { background: #a93226; }
 
-/* ═══════════════════════════════════════
-   MY FAVORITES PAGE
-═══════════════════════════════════════ */
+/* My favorites page. */
 body.favorites-page { background: var(--bg); }
 .favorites-title { text-align: center; font-size: 1.8rem; font-weight: 700; padding: 24px 0 20px; }
 .favorites-list { max-width: 880px; margin: 0 auto; padding: 0 20px 48px; display: flex; flex-direction: column; gap: 0; }
@@ -740,9 +726,7 @@ body.favorites-page { background: var(--bg); }
 .btn-view-fav { display: block; width: calc(100% - 32px); margin: 0 16px 16px; background: var(--green); color: #fff; border: none; border-radius: var(--radius); padding: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; font-family: 'Poppins', Arial, sans-serif; transition: background-color 0.3s ease; }
 .btn-view-fav:hover { background: var(--green-hover); }
 
-/* ═══════════════════════════════════════
-   NOTIFICATIONS PAGE
-═══════════════════════════════════════ */
+/* Notifications page. */
 body.notifications-page { background: var(--bg); }
 .notifications-title { text-align: center; font-size: 1.8rem; font-weight: 700; padding: 28px 0 24px; }
 .notifications-list { max-width: 760px; margin: 0 auto; padding: 0 20px 24px; display: flex; flex-direction: column; gap: 14px; }
@@ -757,9 +741,7 @@ body.notifications-page { background: var(--bg); }
 .mark-read-btn { display: block; margin: 16px auto 40px; background: #fff; border: 1px solid #b0a898; border-radius: var(--radius); padding: 13px 40px; font-size: 1rem; font-weight: 400; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; transition: background 0.2s; box-shadow: var(--shadow); }
 .mark-read-btn:hover { background: #f5f2ec; }
 
-/* ═══════════════════════════════════════
-   MY RECIPES PAGE
-═══════════════════════════════════════ */
+/* My recipes page. */
 body.my-recipes-page { background: var(--bg); }
 .my-recipes-title { text-align: center; font-size: 1.8rem; font-weight: 700; padding: 24px 0 20px; }
 .my-recipes-list { max-width: 980px; margin: 0 auto; padding: 0 20px 48px; display: flex; flex-direction: column; gap: 0; }
@@ -787,9 +769,7 @@ body.my-recipes-page { background: var(--bg); }
 .btn-recipe-delete { background: #c0392b; color: #fff; border: none; border-radius: var(--radius); padding: 8px 20px; font-size: 0.88rem; font-weight: 700; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; transition: background-color 0.3s ease; }
 .btn-recipe-delete:hover { background: #a93226; }
 
-/* ═══════════════════════════════════════
-   FULL RECIPE DETAILS PAGE
-═══════════════════════════════════════ */
+/* Full recipe details page. */
 body.recipe-detail-page { background: var(--bg); }
 .recipe-detail-wrap { max-width: 1100px; margin: 0 auto; padding: 20px 24px 60px; }
 
@@ -845,9 +825,7 @@ body.recipe-detail-page { background: var(--bg); }
 
 .recipe-detail-cols { display: grid; grid-template-columns: 1fr 280px; gap: 20px; align-items: start; }
 
-/* ═══════════════════════════════════════
-   CREATE / EDIT RECIPE PAGE
-═══════════════════════════════════════ */
+/* Create and edit recipe page. */
 body.recipe-form-page { background: var(--bg); }
 .recipe-form-title { text-align: center; font-size: 1.8rem; font-weight: 700; padding: 28px 0 20px; }
 
@@ -890,9 +868,7 @@ body.recipe-form-page { background: var(--bg); }
 .btn-cancel-recipe { background: #fff; color: var(--text); border: 1px solid #b0a898; border-radius: var(--radius); padding: 14px 28px; font-size: 1rem; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; transition: background 0.2s; }
 .btn-cancel-recipe:hover { background: #f5f2ec; }
 
-/* ═══════════════════════════════════════
-   ADMIN PANEL
-═══════════════════════════════════════ */
+/* Admin panel page. */
 body.admin-page { background: var(--bg); }
 .admin-title { text-align: center; font-size: 1.8rem; font-weight: 700; padding: 28px 0 20px; }
 .admin-wrap { max-width: 680px; margin: 0 auto; padding: 0 20px 48px; }
@@ -919,9 +895,7 @@ body.admin-page { background: var(--bg); }
 .admin-activity-row:last-child { border-bottom: none; }
 .admin-activity-time { color: var(--muted); font-size: 0.8rem; flex-shrink: 0; margin-left: 16px; }
 
-/* ═══════════════════════════════════════
-   ADMIN PENDING RECIPES
-═══════════════════════════════════════ */
+/* Admin pending page. */
 body.admin-pending-page { background: var(--bg); }
 
 .admin-page-header { display: flex; align-items: center; padding: 20px 28px 0; gap: 20px; max-width: 1100px; margin: 0 auto; }
@@ -954,9 +928,7 @@ body.admin-pending-page { background: var(--bg); }
 .btn-load-more { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 36px; font-size: 0.95rem; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; transition: background 0.2s; box-shadow: var(--shadow); }
 .btn-load-more:hover { background: #f5f2ec; }
 
-/* ═══════════════════════════════════════
-   ADMIN REVIEW RECIPE
-═══════════════════════════════════════ */
+/* Admin review recipe page. */
 body.admin-review-page { background: var(--bg); }
 .review-wrap { max-width: 760px; margin: 0 auto; padding: 0 20px 60px; }
 
@@ -997,9 +969,7 @@ body.admin-review-page { background: var(--bg); }
 .reject-modal-ta:focus { border-color: #c0392b; }
 .reject-reason-label { font-size: 0.88rem; font-weight: 700; margin-top: 12px; display: block; }
 
-/* ═══════════════════════════════════════
-   ADMIN MANAGE CATEGORIES
-═══════════════════════════════════════ */
+/* Admin manage categories page. */
 body.admin-categories-page { background: var(--bg); }
 .categories-wrap { max-width: 760px; margin: 0 auto; padding: 0 20px 48px; }
 
@@ -1029,9 +999,7 @@ body.admin-categories-page { background: var(--bg); }
 .cat-guidelines ul { padding-left: 18px; }
 .cat-guidelines ul li { font-size: 0.88rem; color: var(--muted); margin-bottom: 5px; line-height: 1.6; }
 
-/* ═══════════════════════════════════════
-   ALL USERS PAGE
-═══════════════════════════════════════ */
+/* All users page. */
 body.admin-users-page { background: var(--bg); }
 
 .users-controls { max-width: 1100px; margin: 20px auto 14px; padding: 0 20px; display: flex; gap: 10px; align-items: center; }
@@ -1088,9 +1056,7 @@ body.edit-category-page { background: var(--bg); }
 .edit-cat-guidelines ul { padding-left: 18px; }
 .edit-cat-guidelines ul li { font-size: 0.88rem; color: var(--muted); margin-bottom: 5px; line-height: 1.6; }
 
-/* ═══════════════════════════════════════
-   MEDIA QUERIES
-═══════════════════════════════════════ */
+/* All of the media queries. */
 @media screen and (min-width: 480px) {
   .card { padding: 30px 28px; }
   .recipe-grid { grid-template-columns: repeat(2, 1fr); }

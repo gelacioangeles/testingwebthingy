@@ -97,7 +97,7 @@
         r.serv >= minServ
       );
 
-      // Update query label from URL or search box
+      // Updating the query label from URL or search box.
       const q = search || new URLSearchParams(window.location.search).get('q') || 'Pasta';
       document.getElementById('query-label').textContent = q;
 
@@ -121,14 +121,14 @@
       `).join('');
     }
 
-    // Init sliders visually
+    // The Init sliders visually.
     ['prepSlider','cookSlider','servSlider'].forEach(id => {
       const el = document.getElementById(id);
       const pct = (el.value-el.min)/(el.max-el.min)*100;
       el.style.background=`linear-gradient(to right,var(--green) ${pct}%,#c8c0b0 ${pct}%)`;
     });
 
-    // Pre-fill search from URL
+    // The Pre-fill search from URL.
     const urlQ = new URLSearchParams(window.location.search).get('q');
     if (urlQ) document.getElementById('filterSearch').value = urlQ;
 

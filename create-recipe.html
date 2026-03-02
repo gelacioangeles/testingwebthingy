@@ -109,7 +109,7 @@
       </div>
     </div>
 
-    <!-- Inline add ingredient form -->
+    <!-- The inline add ingredient form. -->
     <div id="addIngForm" style="background:#faf8f4;border:1.5px solid #d8d0c4;border-radius:10px;padding:14px 16px;margin-bottom:14px;display:none;">
       <div style="font-weight:700;font-size:0.9rem;margin-bottom:10px;">Add Ingredient</div>
       <div class="ing-add-row">
@@ -131,7 +131,7 @@
     </div>
   </div>
 
-  <!-- SUBMIT SUCCESS MODAL -->
+  <!-- The submit success modal. -->
   <div class="modal-overlay" id="submitSuccessModal">
     <div class="modal-box">
       <span class="modal-icon" style="font-family:serif;font-size:2.5rem;font-weight:300;">✓</span>
@@ -194,7 +194,7 @@
       document.getElementById('submitSuccessModal').classList.add('open');
     }
 
-    // Allow Enter in search bar
+    // Allowing the enter in search bar.
     document.getElementById('ingSearchInput').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') addIngredientFromSearch();
     });
